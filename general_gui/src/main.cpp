@@ -23,7 +23,7 @@ int main(int _argc, char **_argv){
     QApplication a(_argc, _argv);
     Gui gui;
 
-    gui.setReceived("PEPE");
+    gui.extractData(_argv[1]);
 
     gui.show();
     

@@ -49,6 +49,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 #########################################
 ######			Executable		   ######
 #########################################
@@ -57,9 +58,10 @@ IF(UNIX)
 ENDIF()
 
 file(GLOB_RECURSE SRC_FILES "src/*.cpp")
-file(GLOB_RECURSE HDR_FILES "src/*.h" "src/*.inl" )
+file(GLOB_RECURSE HDR_FILES "src/*.h" "src/*.inl" "include/*.h")
 
 set(PROJECT_NAME general_gui)
+
 set(SOURCES
     main.cpp
 	gui.cpp
@@ -76,8 +78,8 @@ set(UI_SOURCES
 QT5_WRAP_CPP(general_gui_HEADERS_MOC ${HEADERS})
 QT5_WRAP_UI(general_gui_FORMS_HEADERS ${UI_SOURCES})
 
-add_executable(${PROJECT_NAME} ${SRC_FILES} ${HDR_FILES})
-target_include_directories(${PROJECT_NAME} PUBLIC "./")
+add_executable(${PROJECT_NAME} ${SRC_FILES} ${HDR_FILES}) 
+include_directories(PUBLIC ${PROJECT_SOURCE_DIR}/src ${PROJECT_SOURCE_DIR}/include)
 
 target_link_libraries(${PROJECT_NAME} pthread)
 

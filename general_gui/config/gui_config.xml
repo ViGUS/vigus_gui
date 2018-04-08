@@ -1,0 +1,11 @@
+
+<Windows>
+    <quantityUAV>1</quantityUAV>
+    <UAV>
+        <idUAV>2</idUAV>
+    </UAV>
+    <quantityArm>1</quantityArm>
+    <Arm>
+        <idArm>2</idArm>
+    </Arm>
+</Windows>
