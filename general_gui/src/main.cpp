@@ -13,6 +13,8 @@
 #include <chrono>
 #include <ros/ros.h>
 
+// rosrun general_gui general_gui src/vigus_gui/general_gui/config/gui_config.xml
+
 int main(int _argc, char **_argv){
     ros::init(_argc, _argv, "general_gui");
 
