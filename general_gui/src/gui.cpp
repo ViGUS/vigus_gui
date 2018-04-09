@@ -33,6 +33,7 @@ Gui::~Gui()
 bool Gui::extractData(std::string _pathXML)
 {
     tinyxml2::XMLDocument xml_doc;
+    //std::cout << "XML Path: " << _pathXML << std::endl; 
     tinyxml2::XMLError resultXML = xml_doc.LoadFile(_pathXML.c_str());
     if(resultXML != tinyxml2::XML_SUCCESS){ 
         std::cout << "Error loading file" << std::endl; 
@@ -42,110 +43,87 @@ bool Gui::extractData(std::string _pathXML)
 
     tinyxml2::XMLNode* rootWindows = xml_doc.FirstChildElement("Windows");
     if(rootWindows == nullptr){
-        std::cout << "Error Windows root" << std::endl; 
+        std::cout << "Error NO Windows root" << std::endl; 
         return false;
     }
+    else{   
+        // READ DATA FROM UAV IF EXIST 
+        int contUAV = 0;
+        for (tinyxml2::XMLElement* childUAV = rootWindows->FirstChildElement("UAV"); childUAV != NULL; childUAV = childUAV->NextSiblingElement("UAV")){
+            contUAV++;  
 
-    // READ DATA FROM UAV
-    tinyxml2::XMLElement* elementQtyUAV = rootWindows->FirstChildElement("quantityUAV");
-    if(elementQtyUAV == nullptr){
-        std::cout << "Error element quantityUAV" << std::endl; 
-        return false;
-    }
-    int numUAV;
-    resultXML = elementQtyUAV->QueryIntText(&numUAV);
-    if(resultXML != tinyxml2::XML_SUCCESS){ 
-        std::cout << "Error extracting quantityUAV" << std::endl; 
-        return false;
-    }
+            // Add Root to GUI
+            itemRootUAV = new QTreeWidgetItem(ui->treeWidget);
+            addRoot(itemRootUAV, "UAV", QString::number(contUAV));
 
-    tinyxml2::XMLElement* elementUAV = rootWindows->FirstChildElement("UAV");
-    if(elementUAV == nullptr){
-        std::cout << "Error element UAV" << std::endl; 
-        return false;
-    }
-    itemRootUAV = new QTreeWidgetItem(ui->treeWidget);
-    addRoot(itemRootUAV, "UAV", "1");
-    int i = 0;
-    while(elementUAV != nullptr && i < numUAV){
+            tinyxml2::XMLElement* itemUAV = childUAV->FirstChildElement("idUAV");
+            int idUAV;
+            resultXML = itemUAV->QueryIntText(&idUAV);
+            if(resultXML != tinyxml2::XML_SUCCESS){
+                std::cout << "Error extracting id UAV" << std::endl;   
+            }
+            else{
+                // Add Child for UAV Root
+                addChild(itemRootUAV, "id UAV", QString::number(idUAV));
+            }
 
-        tinyxml2::XMLElement* itemUAV = elementUAV->FirstChildElement("idUAV");
-        int idUAV;
-        resultXML = itemUAV->QueryIntText(&idUAV);
-        if(resultXML != tinyxml2::XML_SUCCESS){ 
-            std::cout << "Error extracting id UAV" << std::endl; 
-            return false;
+            // TODO: HACER COSA CON LOS DATOS QUE EXTRAIGAMOS DE LOS UAV
+               
         }
-        addChild(itemRootUAV, "id UAV", QString::number(idUAV));
 
-        // TODO: HACER COSA CON LOS DATOS QUE EXTRAIGAMOS DEL UAV
+        // READ DATA FROM ARM IF EXIST 
+        int contArm = 0;
+        for (tinyxml2::XMLElement* childArm = rootWindows->FirstChildElement("Arm"); childArm != NULL; childArm = childArm->NextSiblingElement("Arm")){
+            contArm++;
 
-        i++;
-    }
+            // Add Root to GUI
+            itemRootArm = new QTreeWidgetItem(ui->treeWidget);
+            addRoot(itemRootArm, "Arm", QString::number(contArm));
 
-    // READ DATA FROM ARM 
-    tinyxml2::XMLElement* elementQtyArm = rootWindows->FirstChildElement("quantityArm");
-    if(elementQtyUAV == nullptr){
-        std::cout << "Error element quantityArm" << std::endl; 
-        return false;
-    }
-    int numArm;
-    resultXML = elementQtyArm->QueryIntText(&numArm);
-    if(resultXML != tinyxml2::XML_SUCCESS){ 
-        std::cout << "Error extracting quantityArm" << std::endl; 
-        return false;
-    }
+            tinyxml2::XMLElement* itemArm = childArm->FirstChildElement("idArm");
+            int idArm;
+            resultXML = itemArm->QueryIntText(&idArm);
+            if(resultXML != tinyxml2::XML_SUCCESS){ 
+                std::cout << "Error extracting id Arm" << std::endl; 
+            } 
+            else{
+                // Add Child for Arm Root
+                addChild(itemRootArm, "id Arm", QString::number(idArm));
+            } 
+                
+            // TODO: HACER COSA CON LOS DATOS QUE EXTRAIGAMOS DE LOS BRAZOS
 
-    tinyxml2::XMLElement* elementArm = rootWindows->FirstChildElement("Arm");
-    if(elementArm == nullptr){
-        std::cout << "Error element Arm" << std::endl; 
-        return false;
-    }
-    itemRootArm = new QTreeWidgetItem(ui->treeWidget);
-    addRoot(itemRootArm, "Arm", "1");
-    int j = 0;
-    while(elementArm != nullptr && j < numArm){
-
-        tinyxml2::XMLElement* itemArm = elementArm->FirstChildElement("idArm");
-        int idArm;
-        resultXML = itemArm->QueryIntText(&idArm);
-        if(resultXML != tinyxml2::XML_SUCCESS){ 
-            std::cout << "Error extracting id Arm" << std::endl; 
-            return false;
         }
-        addChild(itemRootArm, "id Arm", QString::number(idArm));
 
-        // TODO: HACER COSA CON LOS DATOS QUE EXTRAIGAMOS DE LOS BRAZOS
 
-        j++;
+
     }
 
-
+    return true;
 
 }
 
 //---------------------------------------------------------------------------------------------------------------------
 void Gui::okeyClicked()
 {
-
-    std::cout << "Te parece todo bien, sigamos" << std::endl;
+    std::cout << "Thats okey, continue" << std::endl;
     execWindows();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
 void Gui::execWindows()
 {
-
-    std::cout << "Se ejecutaran las ventanas extraidas del xml" << std::endl;
+    std::cout << "Exec Windows" << std::endl;
+    // TODO: EJECUTAR LAS VENTANAS QUE QUERAMOS!!
 
 }
 
 //---------------------------------------------------------------------------------------------------------------------
 void Gui::addRoot(QTreeWidgetItem *_item, QString _name, QString _description)
-{
+{   
     _item->setText(0, _name);
     _item->setText(1, _description);
-    //ui->treeWidget->addTopLevelItem(item);
+    //ui->treeWidget->addTopLevelItem(_item);
 }
 
 //---------------------------------------------------------------------------------------------------------------------

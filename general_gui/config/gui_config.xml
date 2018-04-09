@@ -1,11 +1,15 @@
 
 <Windows>
-    <quantityUAV>1</quantityUAV>
     <UAV>
-        <idUAV>2</idUAV>
+        <idUAV>15</idUAV>
     </UAV>
-    <quantityArm>1</quantityArm>
+    <UAV>
+        <idUAV>69</idUAV>
+    </UAV>
     <Arm>
-        <idArm>2</idArm>
+        <idArm>23</idArm>
+    </Arm>
+    <Arm>
+        <idArm>9</idArm>
     </Arm>
 </Windows>
