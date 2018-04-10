@@ -67,7 +67,7 @@ bool Gui::extractData(std::string _pathXML)
                 addChild(itemRootUAV, "id UAV", QString::number(idUAV));
             }
 
-            // TODO: HACER COSA CON LOS DATOS QUE EXTRAIGAMOS DE LOS UAV
+            // TODO: guardar en vector datos de UAV para luego iniciar la gui con esos datos
                
         }
 
@@ -91,7 +91,7 @@ bool Gui::extractData(std::string _pathXML)
                 addChild(itemRootArm, "id Arm", QString::number(idArm));
             } 
                 
-            // TODO: HACER COSA CON LOS DATOS QUE EXTRAIGAMOS DE LOS BRAZOS
+            // TODO: guardar en vector datos de Arm para luego iniciar la gui con esos datos
 
         }
 
@@ -106,7 +106,7 @@ bool Gui::extractData(std::string _pathXML)
 //---------------------------------------------------------------------------------------------------------------------
 void Gui::okeyClicked()
 {
-    std::cout << "Thats okey, continue" << std::endl;
+    std::cout << "Thats okey for you, continue!" << std::endl;
     execWindows();
 }
 
@@ -115,7 +115,7 @@ void Gui::execWindows()
 {
     std::cout << "Exec Windows" << std::endl;
     // TODO: EJECUTAR LAS VENTANAS QUE QUERAMOS!!
-
+    
 }
 
 //---------------------------------------------------------------------------------------------------------------------

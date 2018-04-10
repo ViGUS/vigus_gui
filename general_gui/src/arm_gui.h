@@ -1,0 +1,61 @@
+#ifndef ARM_GUI_H
+#define ARM_GUI_H
+
+#include <QMainWindow>
+#include <arm_controller/model_solvers/ModelSolverOpenRave.h>
+#include <arm_controller/Positioner.h>
+#include <arm_controller/Arm4DoF.h>
+
+namespace Ui {
+class Arm_gui;
+}
+
+class Arm_gui : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    explicit Arm_gui(QWidget *parent = 0);
+    ~Arm_gui();
+
+    bool configureGUI(std::vector<std::pair<std::string,double>> _config);
+
+private slots:
+
+    void changeBackend(std::string _backend);
+
+    void on_Change_Backend_clicked();
+
+    void on_Stop_Claw_clicked();
+
+    void on_Close_Claw_clicked();
+
+    void on_Open_Claw_clicked();
+
+    void on_Home_clicked();
+
+    void on_comboBox_2_currentIndexChanged(const QString &arg1);
+
+    void on_checkBox_clicked(bool checked);
+
+    void on_Run_joints_clicked();
+
+    void on_Run_position_clicked();
+
+    void on_Run_autopose_clicked();
+
+private:
+    Ui::Arm_gui *ui;
+
+    hecatonquiros::Backend::Config backendConfig1;
+    hecatonquiros::Backend::Config backendConfig2;
+    hecatonquiros::ModelSolver::Config modelSolverConfig1;
+    hecatonquiros::ModelSolver::Config modelSolverConfig2;
+    hecatonquiros::Arm4DoF *leftArm;
+    hecatonquiros::Arm4DoF *rightArm;
+    hecatonquiros::Arm4DoF *armInUse;
+    bool usingRight;
+
+};
+
+#endif // ARM_GUI_H
