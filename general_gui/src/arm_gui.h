@@ -2,9 +2,9 @@
 #define ARM_GUI_H
 
 #include <QMainWindow>
-#include <arm_controller/model_solvers/ModelSolverOpenRave.h>
-#include <arm_controller/Positioner.h>
-#include <arm_controller/Arm4DoF.h>
+
+#include <hecatonquiros/Positioner.h>
+#include <hecatonquiros/Arm4DoF.h>
 
 namespace Ui {
 class Arm_gui;

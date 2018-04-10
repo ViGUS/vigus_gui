@@ -10,7 +10,7 @@
 Arm_gui::Arm_gui(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Arm_gui)
-{
+    {
 
     ui->setupUi(this);
     ui->comboBox_2->addItem("Using Right Arm");
@@ -29,9 +29,9 @@ Arm_gui::Arm_gui(QWidget *parent) :
     connect(ui->Change_Backend, SIGNAL(clicked()), this, SLOT(on_Change_Backend_clicked()));
 
     // TODO: CHECK THIS
-    connect(ui->comboBox_2, SIGNAL(currentIndexChanged(const QString)), this, SLOT(on_comboBox_2_currentIndexChanged(const QString));
+    connect(ui->comboBox_2, SIGNAL(currentIndexChanged(const QString)), this, SLOT(on_comboBox_2_currentIndexChanged(const QString)));
 
-}
+    }
 
 //---------------------------------------------------------------------------------------------------------------------
 Arm_gui::~Arm_gui()
@@ -113,7 +113,7 @@ void Arm_gui::changeBackend(std::string _backend){
     modelSolverConfig1.robotName = "left_arm";
     modelSolverConfig1.manipulatorName = "manipulator";
     //modelSolverConfig1.robotFile = _argv[1];
-    modelSolverConfig1.environment = _argv[1];
+    modelSolverConfig1.environment = "";
     modelSolverConfig1.offset = {0.20,0.14,-0.04};
 	Eigen::Matrix3f m;
 	m = Eigen::AngleAxisf(0*M_PI, Eigen::Vector3f::UnitZ())
@@ -263,7 +263,7 @@ void Arm_gui::on_Run_position_clicked()
     pose(0,3) = x;
     pose(1,3) = y;
     pose(2,3) = z;
-    if(ui->checkBox->isChecked()){
+    if(forceOri){
         qdx = ui->lineEdit_p4->text();
         qdy = ui->lineEdit_p5->text();
         qdz = ui->lineEdit_p6->text();
@@ -271,15 +271,17 @@ void Arm_gui::on_Run_position_clicked()
         dx = qdx.toDouble();
         dy = qdy.toDouble();
         dz = qdz.toDouble();
-        pose(0,2) = dx;
-        pose(1,2) = dy;
-        pose(2,2) = dz;
+
+        Eigen::Vector3f zAxis = {dx, dy, dz};
+		zAxis /=zAxis.norm();
+		pose.block<3,1>(0,2) = zAxis;
     }
-    if(armInUse->checkIk(pose, joints, forceOri)){
-        armInUse->joints(joints);
-    }else{
-        std::cout << "Not found IK" << std::endl;
-    }
+	if(armInUse->checkIk(pose, joints, forceOri)){
+		armInUse->joints(joints);
+	}else{
+		std::cout << "Not found IK" << std::endl;
+	}
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------
