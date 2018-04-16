@@ -53,10 +53,10 @@
    <widget class="QComboBox" name="comboBox_2">
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>30</y>
+      <x>180</x>
+      <y>24</y>
       <width>131</width>
-      <height>25</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="cursor">
@@ -274,10 +274,10 @@
    <widget class="QLineEdit" name="lineEdit_serial">
     <property name="geometry">
      <rect>
-      <x>530</x>
-      <y>30</y>
-      <width>121</width>
-      <height>27</height>
+      <x>350</x>
+      <y>20</y>
+      <width>141</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
@@ -686,7 +686,7 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>360</x>
+      <x>180</x>
       <y>0</y>
       <width>67</width>
       <height>17</height>
@@ -696,27 +696,14 @@
      <string>Arm</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_Backend">
+   <widget class="QComboBox" name="comboBox">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>30</y>
-      <width>113</width>
-      <height>25</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Change_Backend">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>30</y>
-      <width>141</width>
+      <width>121</width>
       <height>31</height>
      </rect>
-    </property>
-    <property name="text">
-     <string>Change Backend</string>
     </property>
    </widget>
    <zorder>listView</zorder>
@@ -771,8 +758,7 @@
    <zorder>Run_position</zorder>
    <zorder>label_6</zorder>
    <zorder>label_7</zorder>
-   <zorder>lineEdit_Backend</zorder>
-   <zorder>Change_Backend</zorder>
+   <zorder>comboBox</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

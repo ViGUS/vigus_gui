@@ -7,9 +7,7 @@
         <idUAV>69</idUAV>
     </UAV>
     <Arm>
-        <idArm>23</idArm>
-    </Arm>
-    <Arm>
-        <idArm>9</idArm>
+        <Backend>No Backend</Backend>
+        <SerialPort>/dev/ttyUSB0</SerialPort>
     </Arm>
 </Windows>

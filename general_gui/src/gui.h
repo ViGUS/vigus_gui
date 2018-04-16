@@ -18,6 +18,8 @@
 #include <QtGui>
 #include <QTreeWidgetItem>
 
+#include "arm_gui.h"
+
 namespace Ui {
 class Gui;
 }
@@ -40,8 +42,13 @@ private slots:
 
 private:
     Ui::Gui *ui;
-    QTreeWidgetItem *itemRootUAV;
-    QTreeWidgetItem *itemRootArm;
+    Arm_gui *arm_gui;
+
+    std::vector<std::pair<std::string, std::string>> mExtractDataArm;
+    std::vector<std::pair<std::string, std::string>> mExtractDataUAV;
+
+    QTreeWidgetItem *mItemRootUAV;
+    QTreeWidgetItem *mItemRootArm;
 };
 
 #endif // GUI_H

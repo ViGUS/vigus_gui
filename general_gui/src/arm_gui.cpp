@@ -13,10 +13,12 @@ Arm_gui::Arm_gui(QWidget *parent) :
     {
 
     ui->setupUi(this);
+    ui->comboBox->addItem("No Backend");
+    ui->comboBox->addItem("Feetech");
+    ui->comboBox->addItem("Arduino");
     ui->comboBox_2->addItem("Using Right Arm");
     ui->comboBox_2->addItem("Using Left Arm");
-    ui->checkBox->setChecked(true);
-    ui->lineEdit_serial->setVisible(1);
+    ui->checkBox->setChecked(false);
 
     connect(ui->Open_Claw, SIGNAL(clicked()), this, SLOT(on_Open_Claw_clicked()));
     connect(ui->Close_Claw, SIGNAL(clicked()), this, SLOT(on_Close_Claw_clicked()));
@@ -25,11 +27,10 @@ Arm_gui::Arm_gui(QWidget *parent) :
     connect(ui->Run_joints, SIGNAL(clicked()), this, SLOT(on_Run_joints_clicked()));
     connect(ui->Run_position, SIGNAL(clicked()), this, SLOT(on_Run_position_clicked()));
     connect(ui->Stop_Claw, SIGNAL(clicked()), this, SLOT(on_Stop_Claw_clicked()));
-    connect(ui->checkBox, SIGNAL(clicked()), this, SLOT(on_checkBox_clicked(bool)));
-    connect(ui->Change_Backend, SIGNAL(clicked()), this, SLOT(on_Change_Backend_clicked()));
+    connect(ui->checkBox, SIGNAL(clicked(bool)), this, SLOT(on_checkBox_clicked(bool)));
 
-    // TODO: CHECK THIS
     connect(ui->comboBox_2, SIGNAL(currentIndexChanged(const QString)), this, SLOT(on_comboBox_2_currentIndexChanged(const QString)));
+    connect(ui->comboBox, SIGNAL(currentIndexChanged(const QString)), this, SLOT(on_comboBox_currentIndexChanged(const QString)));
 
     }
 
@@ -40,12 +41,29 @@ Arm_gui::~Arm_gui()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-bool Arm_gui::configureGUI(std::vector<std::pair<std::string,double>> _config){
+bool Arm_gui::configureGUI(std::vector<std::pair<std::string, std::string>> _config){
 
-    // TODO: EXTRACT DATA FROM GENERAL GUI
+    for( int i = 0; i < _config.size(); i++){
 
+        if( _config[i].first == "Backend"){
+            mBackendArm = _config[i].second;
+            if(mBackendArm == "Feetech"){
+                 ui->comboBox->setCurrentIndex(1);
+            }else if(mBackendArm == "Arduino"){
+                ui->comboBox->setCurrentIndex(2);
+            }else{
+                ui->comboBox->setCurrentIndex(0);
+            }
+        }
+        if( _config[i].first == "SerialPort"){
+            mSerialPortArm = _config[i].second;
+            ui->lineEdit_serial->setText(QString::fromStdString(mSerialPortArm));
+        }
 
+    }
+     
 
+    changeBackend(mBackendArm);
 
 }
 //---------------------------------------------------------------------------------------------------------------------
@@ -62,11 +80,10 @@ void Arm_gui::changeBackend(std::string _backend){
 
     }else if(_backend == "Arduino"){
 
-        std::string serialPort;
         QString qSerialPort;
         qSerialPort = ui->lineEdit_serial->text();
-        serialPort = qSerialPort.toStdString();
-		serial::Serial* arduinoCom = new serial::Serial(serialPort, 115200, serial::Timeout::simpleTimeout(1000));
+        mSerialPortArm = qSerialPort.toStdString();
+		serial::Serial* arduinoCom = new serial::Serial(mSerialPortArm, 115200, serial::Timeout::simpleTimeout(1000));
 		if (!arduinoCom->isOpen()) {
 			std::cout << "Could not open serial port" << std::endl;
 		}
@@ -76,10 +93,9 @@ void Arm_gui::changeBackend(std::string _backend){
     
     }else if(_backend == "Feetech"){
 
-        std::string serialPort;
         QString qSerialPort;
         qSerialPort = ui->lineEdit_serial->text();
-        serialPort = qSerialPort.toStdString();
+        mSerialPortArm = qSerialPort.toStdString();
 
 		backendConfig1.valuesMinMax = { {-109.376, 106.492},  
                                     	{-111.490, 107.986},
@@ -95,9 +111,9 @@ void Arm_gui::changeBackend(std::string _backend){
                                         {-152.098, 136.935},
                                         {-147.468, 147.564}};
 
-		backendConfig1.type = hecatonquiros::Backend::Config::eType::Feetech; backendConfig1.port = serialPort; backendConfig1.armId =1;
+		backendConfig1.type = hecatonquiros::Backend::Config::eType::Feetech; backendConfig1.port = mSerialPortArm; backendConfig1.armId =1;
 		backendConfig1.jointsOffsets = { 0,	0,	0, 0,	0,	0 };
-		backendConfig2.type = hecatonquiros::Backend::Config::eType::Feetech; backendConfig2.port = serialPort; backendConfig2.armId =2;
+		backendConfig2.type = hecatonquiros::Backend::Config::eType::Feetech; backendConfig2.port = mSerialPortArm; backendConfig2.armId =2;
 		backendConfig2.jointsOffsets = { 0,	0,	0,-15.0/180.0*M_PI,	0,	-15.0/180.0*M_PI};
    
     }else if(_backend == "No Backend"){
@@ -138,19 +154,18 @@ void Arm_gui::changeBackend(std::string _backend){
     rightArm->home();
 
     armInUse = rightArm;
-    usingRight = true;
+    mUsingRight = true;
     std::cout << "USING RIGHT ARM, start: " << std::endl;
 
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_Change_Backend_clicked(){
-
-    std::string stringBackend;
+void Arm_gui::on_comboBox_currentIndexChanged(const QString &_arg)
+{
     QString qBackend;
-    qBackend = ui->lineEdit_Backend->text();
-    stringBackend = qBackend.toStdString();
-    changeBackend(stringBackend);
+    qBackend = ui->comboBox->currentText();
+    mBackendArm = qBackend.toStdString();
+    changeBackend(mBackendArm);
 
 }
 
@@ -183,22 +198,22 @@ void Arm_gui::on_Home_clicked()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_comboBox_2_currentIndexChanged(const QString &arg1)
+void Arm_gui::on_comboBox_2_currentIndexChanged(const QString &_arg)
 {
     if(ui->comboBox_2->currentText() == "Using Right Arm"){
-        usingRight = true;
+        mUsingRight = true;
         armInUse = rightArm;
         std::cout << "USING RIGHT ARM" << std::endl;
     }
     else if(ui->comboBox_2->currentText() == "Using Left Arm"){
-        usingRight = false;
+        mUsingRight = false;
         armInUse = leftArm;
         std::cout << "USING LEFT ARM" << std::endl;
     }
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_checkBox_clicked(bool checked)
+void Arm_gui::on_checkBox_clicked(bool _checked)
 {
     if(ui->checkBox->isChecked()){
         ui->lineEdit_p4->setVisible(1);
@@ -221,33 +236,31 @@ void Arm_gui::on_checkBox_clicked(bool checked)
 //---------------------------------------------------------------------------------------------------------------------
 void Arm_gui::on_Run_joints_clicked()
 {
-    float j1, j2, j3, j4, j5;
-    std::cout << "Joints: "<<std::endl;
-    std::vector<float> joints;
+    std::cout << "Run Joints"<<std::endl;
+    
     QString qj1, qj2, qj3, qj4, qj5;
-
     qj1 = ui->lineEdit_j1->text();
     qj2 = ui->lineEdit_j2->text();
     qj3 = ui->lineEdit_j3->text();
     qj4 = ui->lineEdit_j4->text();
     qj5 = ui->lineEdit_j5->text();
 
-    j1 = qj1.toFloat();
-    j2 = qj2.toFloat();
-    j3 = qj3.toFloat();
-    j4 = qj4.toFloat();
-    j5 = qj5.toFloat();
+    float j1, j2, j3, j4, j5;
+    j1 = qj1.toFloat()/180.0*M_PI;
+    j2 = qj2.toFloat()/180.0*M_PI;
+    j3 = qj3.toFloat()/180.0*M_PI;
+    j4 = qj4.toFloat()/180.0*M_PI;
+    j5 = qj5.toFloat()/180.0*M_PI;
 
-    armInUse->joints({j1/180.0*M_PI,j2/180.0*M_PI,j3/180.0*M_PI,j4/180.0*M_PI,j5/180.0*M_PI});
+    std::vector<float> joints;
+    joints = {j1, j2, j3, j4, j5};
+    armInUse->joints(joints);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
 void Arm_gui::on_Run_position_clicked()
 {
-    Eigen::Matrix4f pose;
-    std::vector<float> joints;
-    std::cout << "position" <<std::endl;
-    float x, y, z, dx, dy, dz;
+    std::cout << "Run Position" <<std::endl;
     bool forceOri;
     forceOri = ui->checkBox->isChecked();
     QString qx, qy, qz, qdx, qdy, qdz;
@@ -255,14 +268,18 @@ void Arm_gui::on_Run_position_clicked()
     qy = ui->lineEdit_p2->text();
     qz = ui->lineEdit_p3->text();
 
+    float x, y, z, dx, dy, dz;
     x = qx.toFloat();
     y = qy.toFloat();
     z = qz.toFloat();
 
+    Eigen::Matrix4f pose;
     pose = Eigen::Matrix4f::Identity();
     pose(0,3) = x;
     pose(1,3) = y;
     pose(2,3) = z;
+
+    hecatonquiros::ModelSolver::IK_TYPE type;
     if(forceOri){
         qdx = ui->lineEdit_p4->text();
         qdy = ui->lineEdit_p5->text();
@@ -275,8 +292,15 @@ void Arm_gui::on_Run_position_clicked()
         Eigen::Vector3f zAxis = {dx, dy, dz};
 		zAxis /=zAxis.norm();
 		pose.block<3,1>(0,2) = zAxis;
+
+        type = hecatonquiros::ModelSolver::IK_TYPE::IK_6D;
     }
-	if(armInUse->checkIk(pose, joints, forceOri)){
+    else{
+        type = hecatonquiros::ModelSolver::IK_TYPE::IK_3D;
+    }   
+    // TODO: CHANGE CHECKIK NEW VERSION!!!!
+    std::vector<float> joints;
+	if(armInUse->checkIk(pose, joints, type)){
 		armInUse->joints(joints);
 	}else{
 		std::cout << "Not found IK" << std::endl;

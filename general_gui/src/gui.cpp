@@ -53,8 +53,8 @@ bool Gui::extractData(std::string _pathXML)
             contUAV++;  
 
             // Add Root to GUI
-            itemRootUAV = new QTreeWidgetItem(ui->treeWidget);
-            addRoot(itemRootUAV, "UAV", QString::number(contUAV));
+            mItemRootUAV = new QTreeWidgetItem(ui->treeWidget);
+            addRoot(mItemRootUAV, "UAV", QString::number(contUAV));
 
             tinyxml2::XMLElement* itemUAV = childUAV->FirstChildElement("idUAV");
             int idUAV;
@@ -64,7 +64,7 @@ bool Gui::extractData(std::string _pathXML)
             }
             else{
                 // Add Child for UAV Root
-                addChild(itemRootUAV, "id UAV", QString::number(idUAV));
+                addChild(mItemRootUAV, "id UAV", QString::number(idUAV));
             }
 
             // TODO: guardar en vector datos de UAV para luego iniciar la gui con esos datos
@@ -77,21 +77,22 @@ bool Gui::extractData(std::string _pathXML)
             contArm++;
 
             // Add Root to GUI
-            itemRootArm = new QTreeWidgetItem(ui->treeWidget);
-            addRoot(itemRootArm, "Arm", QString::number(contArm));
+            mItemRootArm = new QTreeWidgetItem(ui->treeWidget);
+            addRoot(mItemRootArm, "Arm", QString::number(contArm));
 
-            tinyxml2::XMLElement* itemArm = childArm->FirstChildElement("idArm");
-            int idArm;
-            resultXML = itemArm->QueryIntText(&idArm);
-            if(resultXML != tinyxml2::XML_SUCCESS){ 
-                std::cout << "Error extracting id Arm" << std::endl; 
-            } 
-            else{
-                // Add Child for Arm Root
-                addChild(itemRootArm, "id Arm", QString::number(idArm));
-            } 
-                
-            // TODO: guardar en vector datos de Arm para luego iniciar la gui con esos datos
+            tinyxml2::XMLElement* itemArm = childArm->FirstChildElement("Backend");
+            std::string backend;
+            backend = itemArm->GetText();
+            // Add Child for Arm Root
+            addChild(mItemRootArm, "Backend", QString::fromStdString(backend));
+            mExtractDataArm.push_back(std::make_pair("Backend", backend));
+
+            itemArm = childArm->FirstChildElement("SerialPort");
+            std::string serialPort;
+            serialPort = itemArm->GetText();
+            // Add Child for Arm Root
+            addChild(mItemRootArm, "Serial Port", QString::fromStdString(serialPort));
+            mExtractDataArm.push_back(std::make_pair("Serial Port", serialPort));
 
         }
 
@@ -114,8 +115,11 @@ void Gui::okeyClicked()
 void Gui::execWindows()
 {
     std::cout << "Exec Windows" << std::endl;
-    // TODO: EJECUTAR LAS VENTANAS QUE QUERAMOS!!
-    
+    this->close();
+
+    arm_gui = new Arm_gui(this);
+    arm_gui->configureGUI(mExtractDataArm);
+    arm_gui->show();
 }
 
 //---------------------------------------------------------------------------------------------------------------------

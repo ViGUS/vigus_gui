@@ -85,7 +85,7 @@ include_directories(PUBLIC ${PROJECT_SOURCE_DIR}/src ${PROJECT_SOURCE_DIR}/inclu
 target_link_libraries(${PROJECT_NAME} pthread)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${catkin_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} arm_controller)
+target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} hecatonquiros)
 
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
 target_link_libraries(${PROJECT_NAME} Qt5::PrintSupport)

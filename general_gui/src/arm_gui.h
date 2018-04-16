@@ -18,13 +18,11 @@ public:
     explicit Arm_gui(QWidget *parent = 0);
     ~Arm_gui();
 
-    bool configureGUI(std::vector<std::pair<std::string,double>> _config);
+    bool configureGUI(std::vector<std::pair<std::string, std::string>> _config);
 
 private slots:
 
     void changeBackend(std::string _backend);
-
-    void on_Change_Backend_clicked();
 
     void on_Stop_Claw_clicked();
 
@@ -34,9 +32,11 @@ private slots:
 
     void on_Home_clicked();
 
-    void on_comboBox_2_currentIndexChanged(const QString &arg1);
+    void on_comboBox_currentIndexChanged(const QString &_arg);
 
-    void on_checkBox_clicked(bool checked);
+    void on_comboBox_2_currentIndexChanged(const QString &_arg);
+
+    void on_checkBox_clicked(bool _checked);
 
     void on_Run_joints_clicked();
 
@@ -54,8 +54,10 @@ private:
     hecatonquiros::Arm4DoF *leftArm;
     hecatonquiros::Arm4DoF *rightArm;
     hecatonquiros::Arm4DoF *armInUse;
-    bool usingRight;
+    bool mUsingRight;
 
+    std::string mBackendArm;
+    std::string mSerialPortArm;
 };
 
 #endif // ARM_GUI_H
