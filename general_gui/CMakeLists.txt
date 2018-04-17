@@ -33,10 +33,12 @@ find_package(catkin REQUIRED COMPONENTS
 			std_msgs
 			roscpp
 			hecatonquiros
+			uav_abstraction_layer
+			argument_parser
             )
 
 catkin_package(
-CATKIN_DEPENDS roscpp std_msgs hecatonquiros
+CATKIN_DEPENDS roscpp std_msgs hecatonquiros uav_abstraction_layer geometry_msgs argument_parser
 )
 
 find_package(Qt5Widgets REQUIRED)
@@ -90,3 +92,4 @@ target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} hecatonquiros)
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
 target_link_libraries(${PROJECT_NAME} Qt5::PrintSupport)
 
+add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)

@@ -1,10 +1,7 @@
 
 <Windows>
     <UAV>
-        <idUAV>15</idUAV>
-    </UAV>
-    <UAV>
-        <idUAV>69</idUAV>
+        <idUAV>1</idUAV>
     </UAV>
     <Arm>
         <Backend>No Backend</Backend>

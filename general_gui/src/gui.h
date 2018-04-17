@@ -19,6 +19,8 @@
 #include <QTreeWidgetItem>
 
 #include "arm_gui.h"
+#include "uav_gui.h"
+#include <argument_parser/argument_parser.h>
 
 namespace Ui {
 class Gui;
@@ -31,7 +33,7 @@ class Gui : public QMainWindow
 public:
     explicit Gui(QWidget *parent = 0);
     ~Gui();
-    bool extractData(std::string _pathXML);
+    bool extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy);
 
 private slots:
 
@@ -43,6 +45,11 @@ private slots:
 private:
     Ui::Gui *ui;
     Arm_gui *arm_gui;
+    UAV_gui *uav_gui;
+    static grvc::utils::ArgumentParser *mArgParser;
+
+    std::vector<std::pair<std::string, std::string>> mDataArms;
+    std::vector<std::pair<std::string, std::string>> mDataUAVs;
 
     std::vector<std::pair<std::string, std::string>> mExtractDataArm;
     std::vector<std::pair<std::string, std::string>> mExtractDataUAV;

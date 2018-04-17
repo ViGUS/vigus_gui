@@ -56,6 +56,7 @@ private:
     hecatonquiros::Arm4DoF *armInUse;
     bool mUsingRight;
 
+    std::string mIdArm;
     std::string mBackendArm;
     std::string mSerialPortArm;
 };

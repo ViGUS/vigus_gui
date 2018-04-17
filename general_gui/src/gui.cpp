@@ -30,8 +30,10 @@ Gui::~Gui()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-bool Gui::extractData(std::string _pathXML)
-{
+bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
+{   
+    mArgParser = new grvc::utils::ArgumentParser(_argcCopy, _argvCopy);
+
     tinyxml2::XMLDocument xml_doc;
     //std::cout << "XML Path: " << _pathXML << std::endl; 
     tinyxml2::XMLError resultXML = xml_doc.LoadFile(_pathXML.c_str());
@@ -65,6 +67,7 @@ bool Gui::extractData(std::string _pathXML)
             else{
                 // Add Child for UAV Root
                 addChild(mItemRootUAV, "id UAV", QString::number(idUAV));
+                mExtractDataUAV.push_back(std::make_pair("idUAV", std::to_string(idUAV)));
             }
 
             // TODO: guardar en vector datos de UAV para luego iniciar la gui con esos datos
@@ -117,9 +120,15 @@ void Gui::execWindows()
     std::cout << "Exec Windows" << std::endl;
     this->close();
 
+    uav_gui = new UAV_gui(this);
+    uav_gui->configureGUI(mExtractDataUAV, mArgParser);
+    uav_gui->show();
+
+/*
     arm_gui = new Arm_gui(this);
     arm_gui->configureGUI(mExtractDataArm);
     arm_gui->show();
+*/
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -138,3 +147,7 @@ void Gui::addChild(QTreeWidgetItem *_parent, QString _name, QString _description
     item->setText(1, _description);
     _parent->addChild(item);
 }
+
+//---------------------------------------------------------------------------------------------------------------------
+// Static Variable
+grvc::utils::ArgumentParser *Gui::mArgParser = nullptr;

@@ -44,7 +44,10 @@ Arm_gui::~Arm_gui()
 bool Arm_gui::configureGUI(std::vector<std::pair<std::string, std::string>> _config){
 
     for( int i = 0; i < _config.size(); i++){
-
+        if( _config[i].first == "IdArm"){
+            mIdArm = _config[i].second;
+            ui->lineEdit_ID->setText(QString::fromStdString(mIdArm));
+        }        
         if( _config[i].first == "Backend"){
             mBackendArm = _config[i].second;
             if(mBackendArm == "Feetech"){
@@ -62,7 +65,6 @@ bool Arm_gui::configureGUI(std::vector<std::pair<std::string, std::string>> _con
 
     }
      
-
     changeBackend(mBackendArm);
 
 }
@@ -298,7 +300,6 @@ void Arm_gui::on_Run_position_clicked()
     else{
         type = hecatonquiros::ModelSolver::IK_TYPE::IK_3D;
     }   
-    // TODO: CHANGE CHECKIK NEW VERSION!!!!
     std::vector<float> joints;
 	if(armInUse->checkIk(pose, joints, type)){
 		armInUse->joints(joints);
@@ -312,7 +313,13 @@ void Arm_gui::on_Run_position_clicked()
 void Arm_gui::on_Run_autopose_clicked()
 {
     auto pose = armInUse->pose();
+    std::cout << "Arm Pose: " << std::endl;
     std::cout << pose << std::endl;
-    // TODO: PUT POSE IN TEXT
-
+    /*
+    ui->lineEdit_a1->setText(QString::number( ));
+    ui->lineEdit_a2->setText(QString::number( ));
+    ui->lineEdit_a3->setText(QString::number( ));
+    ui->lineEdit_a4->setText(QString::number( ));
+    ui->lineEdit_a5->setText(QString::number( ));
+    */
 }
