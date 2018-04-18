@@ -53,6 +53,8 @@ bool UAV_gui::configureGUI(std::vector<std::pair<std::string, std::string>> _con
     }
     std::this_thread::sleep_for(std::chrono::seconds(1));
 
+    return true;
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------

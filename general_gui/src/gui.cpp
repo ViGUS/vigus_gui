@@ -69,8 +69,6 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
                 addChild(mItemRootUAV, "id UAV", QString::number(idUAV));
                 mExtractDataUAV.push_back(std::make_pair("idUAV", std::to_string(idUAV)));
             }
-
-            // TODO: guardar en vector datos de UAV para luego iniciar la gui con esos datos
                
         }
 
@@ -99,6 +97,30 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
 
         }
 
+        // READ DATA FROM POINTCLOUD IF EXIST 
+        int contPointCloud = 0;
+        for (tinyxml2::XMLElement* childPointCloud = rootWindows->FirstChildElement("PointCloud"); childPointCloud != NULL; childPointCloud = childPointCloud->NextSiblingElement("PointCloud")){
+            contArm++;
+
+            // Add Root to GUI
+            mItemRootPointCloud = new QTreeWidgetItem(ui->treeWidget);
+            addRoot(mItemRootPointCloud, "PointCloud", QString::number(contPointCloud));
+
+            tinyxml2::XMLElement* itemPointCloud = childPointCloud->FirstChildElement("DirPCD");
+            std::string dirPCD;
+            dirPCD = itemPointCloud->GetText();
+            // Add Child for PointCloud Root
+            addChild(mItemRootPointCloud, "DirPCD", QString::fromStdString(dirPCD));
+            mExtractDataPointCloud.push_back(std::make_pair("DirPCD", dirPCD));
+
+            itemPointCloud = childPointCloud->FirstChildElement("TypePoint");
+            std::string typePoint;
+            typePoint = itemPointCloud->GetText();
+            // Add Child for PointCloud Root
+            addChild(mItemRootPointCloud, "TypePoint", QString::fromStdString(typePoint));
+            mExtractDataPointCloud.push_back(std::make_pair("TypePoint", typePoint));
+
+        }
 
 
     }
@@ -119,16 +141,22 @@ void Gui::execWindows()
 {
     std::cout << "Exec Windows" << std::endl;
     this->close();
+    // TODO: HACER GENERAL!!! SE PUEDA METER TODOS LOS UAV Y ARMS QUE SE QUIERA!!
 
+/*
     uav_gui = new UAV_gui(this);
     uav_gui->configureGUI(mExtractDataUAV, mArgParser);
     uav_gui->show();
 
-/*
     arm_gui = new Arm_gui(this);
     arm_gui->configureGUI(mExtractDataArm);
     arm_gui->show();
 */
+    pclviewer_gui = new PCLViewer_gui(this);
+    pclviewer_gui->configureGUI(mExtractDataPointCloud);
+    pclviewer_gui->show();
+  
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------

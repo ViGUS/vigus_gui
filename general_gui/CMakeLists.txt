@@ -41,6 +41,16 @@ catkin_package(
 CATKIN_DEPENDS roscpp std_msgs hecatonquiros uav_abstraction_layer geometry_msgs argument_parser
 )
 
+## Load PCL
+find_package(PCL 1.8 QUIET REQUIRED)
+if(${PCL_FOUND} AND ${VTK_FOUND} AND ${Boost_FOUND} AND ${FLANN_FOUND} STREQUAL "TRUE")
+	MESSAGE( STATUS "Adding properly PCL and its dependencies")
+	add_definitions(-DENABLE_PCL)
+	add_definitions(${PCL_DEFINITIONS})
+else()
+	MESSAGE( FATAL_ERROR "Couldnt Add PCL and/or it's dependencies")
+endif()
+
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5PrintSupport REQUIRED)
 find_package(Eigen3 REQUIRED)
@@ -68,14 +78,23 @@ set(PROJECT_NAME general_gui)
 set(SOURCES
     main.cpp
 	gui.cpp
+	arm_gui.cpp
+	uav_gui.cpp
+	pclviewer_gui.cpp
 )
 
 set(HEADERS
 	gui.h
+	arm_gui.h
+	uav_gui.h
+	pclviewer_gui.h
 )
 
 set(UI_SOURCES
 	gui.ui
+	arm_gui.ui
+	uav_gui.ui
+	pclviewer_gui.ui
 )
 
 QT5_WRAP_CPP(general_gui_HEADERS_MOC ${HEADERS})
@@ -91,5 +110,8 @@ target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} hecatonquiros)
 
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
 target_link_libraries(${PROJECT_NAME} Qt5::PrintSupport)
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${PCL_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} LINK_PUBLIC ${PCL_LIBRARIES})
 
 add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)

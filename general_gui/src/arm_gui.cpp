@@ -66,6 +66,7 @@ bool Arm_gui::configureGUI(std::vector<std::pair<std::string, std::string>> _con
     }
      
     changeBackend(mBackendArm);
+    return true;
 
 }
 //---------------------------------------------------------------------------------------------------------------------

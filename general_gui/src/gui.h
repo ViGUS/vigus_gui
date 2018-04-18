@@ -18,6 +18,7 @@
 #include <QtGui>
 #include <QTreeWidgetItem>
 
+#include "pclviewer_gui.h"
 #include "arm_gui.h"
 #include "uav_gui.h"
 #include <argument_parser/argument_parser.h>
@@ -46,16 +47,17 @@ private:
     Ui::Gui *ui;
     Arm_gui *arm_gui;
     UAV_gui *uav_gui;
+    PCLViewer_gui *pclviewer_gui;
+    
     static grvc::utils::ArgumentParser *mArgParser;
-
-    std::vector<std::pair<std::string, std::string>> mDataArms;
-    std::vector<std::pair<std::string, std::string>> mDataUAVs;
 
     std::vector<std::pair<std::string, std::string>> mExtractDataArm;
     std::vector<std::pair<std::string, std::string>> mExtractDataUAV;
+    std::vector<std::pair<std::string, std::string>> mExtractDataPointCloud;
 
     QTreeWidgetItem *mItemRootUAV;
     QTreeWidgetItem *mItemRootArm;
+    QTreeWidgetItem *mItemRootPointCloud;
 };
 
 #endif // GUI_H
