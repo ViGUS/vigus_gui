@@ -8,7 +8,7 @@
         <SerialPort>/dev/ttyUSB0</SerialPort>
     </Arm>
     <PointCloud>
-        <DirPCD> </DirPCD>
+        <DirPCD>/home/polux/programming/catkin_gui/src/vigus_gui/general_gui/test/bunny.pcd</DirPCD>
         <TypePoint>PointXYZ</TypePoint>
     </PointCloud>
 </Windows>

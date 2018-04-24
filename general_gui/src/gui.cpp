@@ -100,7 +100,7 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
         // READ DATA FROM POINTCLOUD IF EXIST 
         int contPointCloud = 0;
         for (tinyxml2::XMLElement* childPointCloud = rootWindows->FirstChildElement("PointCloud"); childPointCloud != NULL; childPointCloud = childPointCloud->NextSiblingElement("PointCloud")){
-            contArm++;
+            contPointCloud++;
 
             // Add Root to GUI
             mItemRootPointCloud = new QTreeWidgetItem(ui->treeWidget);

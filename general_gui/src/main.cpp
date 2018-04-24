@@ -28,6 +28,9 @@ int main(int _argc, char **_argv){
     	ros::spin();
     });
 
+    //ros::AsyncSpinner spinner(4); // Use 4 threads
+	//spinner.start();
+
     QApplication a(_argc, _argv);
 
     Gui gui;
