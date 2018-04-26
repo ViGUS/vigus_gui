@@ -37,6 +37,8 @@ private slots:
     void updatePointCloud();
     bool extractPointCloud(std::string _dir);
 
+    //  TODO: CALLBACK DE LOS CLICS PARA SABER LA POSICION EN DONDE PULSAMOS EN LA NUBE DE PUNTOS!!
+
 
 private:
     Ui::PCLViewer_gui *ui;

@@ -128,7 +128,7 @@ void Arm_gui::changeBackend(std::string _backend){
       }
 
 
-    modelSolverConfig1.type = hecatonquiros::ModelSolver::Config::eType::Simple4DoF;
+    modelSolverConfig1.type = hecatonquiros::ModelSolver::Config::eType::OpenRave;
     modelSolverConfig1.robotName = "left_arm";
     modelSolverConfig1.manipulatorName = "manipulator";
     //modelSolverConfig1.robotFile = _argv[1];
@@ -142,7 +142,7 @@ void Arm_gui::changeBackend(std::string _backend){
     modelSolverConfig1.visualizer = true;
 
     hecatonquiros::ModelSolver::Config modelSolverConfig2;
-    modelSolverConfig2.type = hecatonquiros::ModelSolver::Config::eType::Simple4DoF;
+    modelSolverConfig2.type = hecatonquiros::ModelSolver::Config::eType::OpenRave;
     modelSolverConfig2.robotName = "right_arm";
     modelSolverConfig2.manipulatorName = "manipulator";
     //modelSolverConfig2.robotFile = _argv[1];
