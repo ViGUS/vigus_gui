@@ -62,6 +62,19 @@ bool Arm_gui::configureGUI(std::vector<std::pair<std::string, std::string>> _con
             mSerialPortArm = _config[i].second;
             ui->lineEdit_serial->setText(QString::fromStdString(mSerialPortArm));
         }
+        if( _config[i].first == "Visualizer"){
+            if(_config[i].second == "true"){
+                mVisualizer = true;
+            }else{
+                mVisualizer = false;
+            }
+        } 
+        if( _config[i].first == "RobotFile"){
+            mRobotFile = _config[i].second;
+        }
+        if( _config[i].first == "EnviromentFile"){
+            mEnviromentFile = _config[i].second;
+        }
 
     }
      
@@ -100,25 +113,28 @@ void Arm_gui::changeBackend(std::string _backend){
         qSerialPort = ui->lineEdit_serial->text();
         mSerialPortArm = qSerialPort.toStdString();
 
-		backendConfig1.valuesMinMax = { {-109.376, 106.492},  
-                                    	{-111.490, 107.986},
-                                    	{-104.869, 113.775},
-                                    	{-111.568, 98.624},
-                                    	{-152.400, 144.563},
-                                    	{-135.305, 157.744}};
+		//backendConfig1.valuesMinMax = { {-109.376, 106.492},  
+        //                            	{-111.490, 107.986},
+        //                            	{-104.869, 113.775},
+        //                            	{-111.568, 98.624},
+        //                            	{-152.400, 144.563},
+        //                            	{-135.305, 157.744}};
+        //backendConfig1.jointsOffsets = { 0,	0,	0, 0,	0,	0 };
 
-		backendConfig2.valuesMinMax = { {-112.737, 100.442},  
-                                        {-106.202, 110.798},
-                                        {-103.401, 116.820},
-                                        {-92.791, 120.046},
-                                        {-152.098, 136.935},
-                                        {-147.468, 147.564}};
+		//backendConfig2.valuesMinMax = { {-112.737, 100.442},  
+        //                                {-106.202, 110.798},
+        //                                {-103.401, 116.820},
+        //                                {-92.791, 120.046},
+        //                                {-152.098, 136.935},
+        //                                {-147.468, 147.564}};
+        //backendConfig2.jointsOffsets = { 0,	0,	0, 0,	0,	0};
+
+        backendConfig1.configXML = "src/hecatonquiros/arm_controller/config/config_arm2.xml";
+		backendConfig2.configXML = "src/hecatonquiros/arm_controller/config/config_arm1.xml";
 
 		backendConfig1.type = hecatonquiros::Backend::Config::eType::Feetech; backendConfig1.port = mSerialPortArm; backendConfig1.armId =1;
-		backendConfig1.jointsOffsets = { 0,	0,	0, 0,	0,	0 };
 		backendConfig2.type = hecatonquiros::Backend::Config::eType::Feetech; backendConfig2.port = mSerialPortArm; backendConfig2.armId =2;
-		backendConfig2.jointsOffsets = { 0,	0,	0,-15.0/180.0*M_PI,	0,	-15.0/180.0*M_PI};
-   
+		
     }else if(_backend == "No Backend"){
         backendConfig1.type = hecatonquiros::Backend::Config::eType::Dummy;
         backendConfig2.type = hecatonquiros::Backend::Config::eType::Dummy;
@@ -131,24 +147,42 @@ void Arm_gui::changeBackend(std::string _backend){
     modelSolverConfig1.type = hecatonquiros::ModelSolver::Config::eType::OpenRave;
     modelSolverConfig1.robotName = "left_arm";
     modelSolverConfig1.manipulatorName = "manipulator";
-    //modelSolverConfig1.robotFile = _argv[1];
-    modelSolverConfig1.environment = "";
+    if(mRobotFile != "" && mEnviromentFile == ""){
+        modelSolverConfig1.robotFile = mRobotFile;
+    }else if(mRobotFile == "" && mEnviromentFile != ""){
+        modelSolverConfig1.environment = mEnviromentFile;
+    }else if(mRobotFile == "" && mEnviromentFile == ""){
+        std::cout << "ERROR! NO has puesto RobotFile o EnviromentFile" << std::endl;
+    }else{
+        std::cout << "ERROR! Has puesto RobotFile y EnviromentFile" << std::endl;
+    }
     modelSolverConfig1.offset = {0.20,0.14,-0.04};
 	Eigen::Matrix3f m;
 	m = Eigen::AngleAxisf(0*M_PI, Eigen::Vector3f::UnitZ())
 		* Eigen::AngleAxisf(1*M_PI,  Eigen::Vector3f::UnitY());
 	Eigen::Quaternionf q(m);
     modelSolverConfig1.rotation = {q.w(), q.x(), q.y(), q.z()};
-    modelSolverConfig1.visualizer = true;
+    if(mVisualizer == true){
+        modelSolverConfig1.visualizer = true;
+    }else{
+        modelSolverConfig1.visualizer = false;
+    }
+    
 
     hecatonquiros::ModelSolver::Config modelSolverConfig2;
     modelSolverConfig2.type = hecatonquiros::ModelSolver::Config::eType::OpenRave;
     modelSolverConfig2.robotName = "right_arm";
     modelSolverConfig2.manipulatorName = "manipulator";
-    //modelSolverConfig2.robotFile = _argv[1];
+    if(mRobotFile != ""){
+        modelSolverConfig2.robotFile = mRobotFile;
+    }
     modelSolverConfig2.offset = {0.2,-0.2,-0.04};
     modelSolverConfig2.rotation = {q.w(), q.x(), q.y(), q.z()};
-    modelSolverConfig2.visualizer = true;
+    if(mVisualizer == true){
+        modelSolverConfig2.visualizer = true;
+    }else{
+        modelSolverConfig2.visualizer = false;
+    }
 
     leftArm = new hecatonquiros::Arm4DoF (modelSolverConfig1, backendConfig1);
     rightArm = new hecatonquiros::Arm4DoF (modelSolverConfig2, backendConfig2);
@@ -257,7 +291,7 @@ void Arm_gui::on_Run_joints_clicked()
 
     std::vector<float> joints;
     joints = {j1, j2, j3, j4, j5};
-    armInUse->joints(joints);
+    armInUse->joints(joints, true);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -303,7 +337,7 @@ void Arm_gui::on_Run_position_clicked()
     }   
     std::vector<float> joints;
 	if(armInUse->checkIk(pose, joints, type)){
-		armInUse->joints(joints);
+		armInUse->joints(joints, true);
 	}else{
 		std::cout << "Not found IK" << std::endl;
 	}

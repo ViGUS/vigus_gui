@@ -59,6 +59,9 @@ private:
     std::string mIdArm;
     std::string mBackendArm;
     std::string mSerialPortArm;
+    std::string mEnviromentFile = "";
+    std::string mRobotFile = "";
+    bool mVisualizer;
 };
 
 #endif // ARM_GUI_H

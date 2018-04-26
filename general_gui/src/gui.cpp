@@ -95,6 +95,30 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
             addChild(mItemRootArm, "Serial Port", QString::fromStdString(serialPort));
             mExtractDataArm.push_back(std::make_pair("Serial Port", serialPort));
 
+            itemArm = childArm->FirstChildElement("RobotFile");
+            std::string robotFile = "";
+            robotFile = itemArm->GetText();
+            if(robotFile != ""){
+                // Add Child for Arm Root
+                addChild(mItemRootArm, "RobotFile", QString::fromStdString(serialPort));
+                mExtractDataArm.push_back(std::make_pair("RobotFile", robotFile));
+            }
+
+            itemArm = childArm->FirstChildElement("EnviromentFile");
+            std::string enviromentFile = "";
+            enviromentFile = itemArm->GetText();
+            if(enviromentFile != ""){
+                // Add Child for Arm Root
+                addChild(mItemRootArm, "EnviromentFile", QString::fromStdString(serialPort));
+                mExtractDataArm.push_back(std::make_pair("EnviromentFile", enviromentFile));
+            }
+
+            itemArm = childArm->FirstChildElement("Visualizer");
+            std::string visualizer;
+            visualizer = itemArm->GetText();
+            // Add Child for Arm Root
+            addChild(mItemRootArm, "Visualizer", QString::fromStdString(serialPort));
+            mExtractDataArm.push_back(std::make_pair("Visualizer", visualizer));
         }
 
         // READ DATA FROM POINTCLOUD IF EXIST 
@@ -142,7 +166,7 @@ void Gui::execWindows()
     std::cout << "Exec Windows" << std::endl;
     this->close();
     // TODO: HACER GENERAL!!! SE PUEDA METER TODOS LOS UAV Y ARMS QUE SE QUIERA!!
-
+    // TODO: HACER QUE SE PUEDA CAMBIAR MANUALMENTE!!
 /*
     uav_gui = new UAV_gui(this);
     uav_gui->configureGUI(mExtractDataUAV, mArgParser);
