@@ -96,28 +96,28 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
             mExtractDataArm.push_back(std::make_pair("Serial Port", serialPort));
 
             itemArm = childArm->FirstChildElement("RobotFile");
-            std::string robotFile = "";
-            robotFile = itemArm->GetText();
-            if(robotFile != ""){
+            if(itemArm){
+                std::string robotFile = "";
+                robotFile = itemArm->GetText();
                 // Add Child for Arm Root
-                addChild(mItemRootArm, "RobotFile", QString::fromStdString(serialPort));
+                addChild(mItemRootArm, "RobotFile", QString::fromStdString(robotFile));
                 mExtractDataArm.push_back(std::make_pair("RobotFile", robotFile));
             }
 
             itemArm = childArm->FirstChildElement("EnviromentFile");
-            std::string enviromentFile = "";
-            enviromentFile = itemArm->GetText();
-            if(enviromentFile != ""){
+            if(itemArm){
+                std::string enviromentFile = "";
+                enviromentFile = itemArm->GetText();
                 // Add Child for Arm Root
-                addChild(mItemRootArm, "EnviromentFile", QString::fromStdString(serialPort));
+                addChild(mItemRootArm, "EnviromentFile", QString::fromStdString(enviromentFile));
                 mExtractDataArm.push_back(std::make_pair("EnviromentFile", enviromentFile));
             }
-
+            
             itemArm = childArm->FirstChildElement("Visualizer");
             std::string visualizer;
             visualizer = itemArm->GetText();
             // Add Child for Arm Root
-            addChild(mItemRootArm, "Visualizer", QString::fromStdString(serialPort));
+            addChild(mItemRootArm, "Visualizer", QString::fromStdString(visualizer));
             mExtractDataArm.push_back(std::make_pair("Visualizer", visualizer));
         }
 
