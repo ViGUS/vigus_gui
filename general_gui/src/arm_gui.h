@@ -22,7 +22,23 @@ public:
 
 private slots:
 
-    void changeBackend(std::string _backend);
+    bool changeBackend(std::string _backend);
+
+    void on_X1_clicked();
+
+    void on_X2_clicked();
+
+    void on_Y1_clicked();
+
+    void on_Y2_clicked();
+
+    void on_Z1_clicked();
+
+    void on_Z2_clicked();
+
+    void on_ConnectB_clicked();
+
+    void on_ConnectA_clicked();
 
     void on_Stop_Claw_clicked();
 
@@ -31,10 +47,6 @@ private slots:
     void on_Open_Claw_clicked();
 
     void on_Home_clicked();
-
-    void on_comboBox_currentIndexChanged(const QString &_arg);
-
-    void on_comboBox_2_currentIndexChanged(const QString &_arg);
 
     void on_checkBox_clicked(bool _checked);
 

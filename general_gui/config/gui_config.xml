@@ -4,10 +4,10 @@
         <idUAV>1</idUAV>
     </UAV>
     <Arm>
-        <Backend>Feetech</Backend>
+        <Backend>No Backend</Backend>
         <SerialPort>/dev/ttyUSB0</SerialPort>
         <RobotFile>/home/polux/programming/catkin_gui/src/vigus_gui/hecatonquiros/arm_controller/config/arm_gripper_6dof.robot.xml</RobotFile>
-        <Visualizer>true</Visualizer>
+        <Visualizer>false</Visualizer>
     </Arm>
     <PointCloud>
         <DirPCD>/home/polux/programming/catkin_gui/src/vigus_gui/general_gui/test/bunny.pcd</DirPCD>

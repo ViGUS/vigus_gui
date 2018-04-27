@@ -1,6 +1,8 @@
 #include "arm_gui.h"
 #include "ui_arm_gui.h"
 #include <QTextStream>
+#include <QPixmap>
+#include <QIcon>
 
 #include <iostream>
 #include <ros/ros.h>
@@ -11,7 +13,7 @@ Arm_gui::Arm_gui(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Arm_gui)
     {
-
+    
     ui->setupUi(this);
     ui->comboBox->addItem("No Backend");
     ui->comboBox->addItem("Feetech");
@@ -29,8 +31,45 @@ Arm_gui::Arm_gui(QWidget *parent) :
     connect(ui->Stop_Claw, SIGNAL(clicked()), this, SLOT(on_Stop_Claw_clicked()));
     connect(ui->checkBox, SIGNAL(clicked(bool)), this, SLOT(on_checkBox_clicked(bool)));
 
-    connect(ui->comboBox_2, SIGNAL(currentIndexChanged(const QString)), this, SLOT(on_comboBox_2_currentIndexChanged(const QString)));
-    connect(ui->comboBox, SIGNAL(currentIndexChanged(const QString)), this, SLOT(on_comboBox_currentIndexChanged(const QString)));
+    connect(ui->ConnectB, SIGNAL(clicked()), this, SLOT(on_ConnectB_clicked()));
+    connect(ui->ConnectA, SIGNAL(clicked()), this, SLOT(on_ConnectA_clicked()));
+
+    connect(ui->X1, SIGNAL(clicked()), this, SLOT(on_X1_clicked()));
+    connect(ui->X2, SIGNAL(clicked()), this, SLOT(on_X2_clicked()));
+    connect(ui->Y1, SIGNAL(clicked()), this, SLOT(on_Y1_clicked()));
+    connect(ui->Y2, SIGNAL(clicked()), this, SLOT(on_Y2_clicked()));
+    connect(ui->Z1, SIGNAL(clicked()), this, SLOT(on_Z1_clicked()));
+    connect(ui->Z2, SIGNAL(clicked()), this, SLOT(on_Z2_clicked()));
+
+    QPixmap pixmapX1("src/vigus_gui/general_gui/images/arrow_up.png");
+    QIcon ButtonIconX1(pixmapX1);
+    ui->X1->setIcon(ButtonIconX1);
+    ui->X1->setIconSize(pixmapX1.rect().size());
+
+    QPixmap pixmapX2("src/vigus_gui/general_gui/images/arrow_down.png");
+    QIcon ButtonIconX2(pixmapX2);
+    ui->X2->setIcon(ButtonIconX2);
+    ui->X2->setIconSize(pixmapX2.rect().size());
+
+    QPixmap pixmapY1("src/vigus_gui/general_gui/images/arrow_left.png");
+    QIcon ButtonIconY1(pixmapY1);
+    ui->Y1->setIcon(ButtonIconY1);
+    ui->Y1->setIconSize(pixmapY1.rect().size());
+
+    QPixmap pixmapY2("src/vigus_gui/general_gui/images/arrow_right.png");
+    QIcon ButtonIconY2(pixmapY2);
+    ui->Y2->setIcon(ButtonIconY2);
+    ui->Y2->setIconSize(pixmapY2.rect().size());
+
+    QPixmap pixmapZ1("src/vigus_gui/general_gui/images/arrow_up.png");
+    QIcon ButtonIconZ1(pixmapZ1);
+    ui->Z1->setIcon(ButtonIconZ1);
+    ui->Z1->setIconSize(pixmapZ1.rect().size());
+
+    QPixmap pixmapZ2("src/vigus_gui/general_gui/images/arrow_down.png");
+    QIcon ButtonIconZ2(pixmapZ2);
+    ui->Z2->setIcon(ButtonIconZ2);
+    ui->Z2->setIconSize(pixmapZ2.rect().size());
 
     }
 
@@ -48,16 +87,6 @@ bool Arm_gui::configureGUI(std::vector<std::pair<std::string, std::string>> _con
             mIdArm = _config[i].second;
             ui->lineEdit_ID->setText(QString::fromStdString(mIdArm));
         }        
-        if( _config[i].first == "Backend"){
-            mBackendArm = _config[i].second;
-            if(mBackendArm == "Feetech"){
-                 ui->comboBox->setCurrentIndex(1);
-            }else if(mBackendArm == "Arduino"){
-                ui->comboBox->setCurrentIndex(2);
-            }else{
-                ui->comboBox->setCurrentIndex(0);
-            }
-        }
         if( _config[i].first == "SerialPort"){
             mSerialPortArm = _config[i].second;
             ui->lineEdit_serial->setText(QString::fromStdString(mSerialPortArm));
@@ -75,15 +104,25 @@ bool Arm_gui::configureGUI(std::vector<std::pair<std::string, std::string>> _con
         if( _config[i].first == "EnviromentFile"){
             mEnviromentFile = _config[i].second;
         }
+        if( _config[i].first == "Backend"){
+            mBackendArm = _config[i].second;
+            if(mBackendArm == "Feetech"){
+                 ui->comboBox->setCurrentIndex(1);
+            }else if(mBackendArm == "Arduino"){
+                ui->comboBox->setCurrentIndex(2);
+            }else{
+                ui->comboBox->setCurrentIndex(0);
+            }
+        }
 
     }
-     
-    changeBackend(mBackendArm);
+    
+    //changeBackend(mBackendArm);
     return true;
 
 }
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::changeBackend(std::string _backend){
+bool Arm_gui::changeBackend(std::string _backend){
 
     if(_backend == "Gazebo"){
 
@@ -102,6 +141,7 @@ void Arm_gui::changeBackend(std::string _backend){
 		serial::Serial* arduinoCom = new serial::Serial(mSerialPortArm, 115200, serial::Timeout::simpleTimeout(1000));
 		if (!arduinoCom->isOpen()) {
 			std::cout << "Could not open serial port" << std::endl;
+            return false;
 		}
 
 		backendConfig1.type = hecatonquiros::Backend::Config::eType::Arduino; backendConfig1.sharedSerialPort = arduinoCom; backendConfig1.armId =1;
@@ -140,10 +180,10 @@ void Arm_gui::changeBackend(std::string _backend){
         backendConfig2.type = hecatonquiros::Backend::Config::eType::Dummy;
     }else{
         std::cout << "unrecognized mode, exiting" << std::endl;
+        return false;
+    }
 
-      }
-
-
+    hecatonquiros::ModelSolver::Config modelSolverConfig1;
     modelSolverConfig1.type = hecatonquiros::ModelSolver::Config::eType::OpenRave;
     modelSolverConfig1.robotName = "left_arm";
     modelSolverConfig1.manipulatorName = "manipulator";
@@ -153,8 +193,10 @@ void Arm_gui::changeBackend(std::string _backend){
         modelSolverConfig1.environment = mEnviromentFile;
     }else if(mRobotFile == "" && mEnviromentFile == ""){
         std::cout << "ERROR! NO has puesto RobotFile o EnviromentFile" << std::endl;
+        return false;
     }else{
         std::cout << "ERROR! Has puesto RobotFile y EnviromentFile" << std::endl;
+        return false;
     }
     modelSolverConfig1.offset = {0.20,0.14,-0.04};
 	Eigen::Matrix3f m;
@@ -168,7 +210,6 @@ void Arm_gui::changeBackend(std::string _backend){
         modelSolverConfig1.visualizer = false;
     }
     
-
     hecatonquiros::ModelSolver::Config modelSolverConfig2;
     modelSolverConfig2.type = hecatonquiros::ModelSolver::Config::eType::OpenRave;
     modelSolverConfig2.robotName = "right_arm";
@@ -190,20 +231,165 @@ void Arm_gui::changeBackend(std::string _backend){
     leftArm->home();
     rightArm->home();
 
-    armInUse = rightArm;
-    mUsingRight = true;
-    std::cout << "USING RIGHT ARM, start: " << std::endl;
+    //armInUse = rightArm;
+    //mUsingRight = true;
+    //std::cout << "USING RIGHT ARM, start: " << std::endl;
+
+    return true;
 
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_comboBox_currentIndexChanged(const QString &_arg)
-{
+void Arm_gui::on_X1_clicked(){
+    QString qPrecision;
+    qPrecision = ui->lineEdit_precision->text();
+    float fPrecision;
+    fPrecision = qPrecision.toFloat();
+
+    auto pose = armInUse->pose();
+    pose(0,3) = pose(0,3) + fPrecision;
+
+    hecatonquiros::ModelSolver::IK_TYPE type = hecatonquiros::ModelSolver::IK_TYPE::IK_3D; 
+
+    std::vector<float> joints;
+	if(armInUse->checkIk(pose, joints, type)){
+		armInUse->joints(joints, true);
+	}else{
+		std::cout << "Not found IK" << std::endl;
+	}
+
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+void Arm_gui::on_X2_clicked(){
+    QString qPrecision;
+    qPrecision = ui->lineEdit_precision->text();
+    float fPrecision;
+    fPrecision = qPrecision.toFloat();
+
+    auto pose = armInUse->pose();
+    pose(0,3) = pose(0,3) - fPrecision;
+
+    hecatonquiros::ModelSolver::IK_TYPE type = hecatonquiros::ModelSolver::IK_TYPE::IK_3D; 
+
+    std::vector<float> joints;
+	if(armInUse->checkIk(pose, joints, type)){
+		armInUse->joints(joints, true);
+	}else{
+		std::cout << "Not found IK" << std::endl;
+	}
+
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+void Arm_gui::on_Y1_clicked(){
+    QString qPrecision;
+    qPrecision = ui->lineEdit_precision->text();
+    float fPrecision;
+    fPrecision = qPrecision.toFloat();
+
+    auto pose = armInUse->pose();
+    pose(1,3) = pose(1,3) + fPrecision;
+
+    hecatonquiros::ModelSolver::IK_TYPE type = hecatonquiros::ModelSolver::IK_TYPE::IK_3D; 
+
+    std::vector<float> joints;
+	if(armInUse->checkIk(pose, joints, type)){
+		armInUse->joints(joints, true);
+	}else{
+		std::cout << "Not found IK" << std::endl;
+	}
+
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+void Arm_gui::on_Y2_clicked(){
+    QString qPrecision;
+    qPrecision = ui->lineEdit_precision->text();
+    float fPrecision;
+    fPrecision = qPrecision.toFloat();
+
+    auto pose = armInUse->pose();
+    pose(1,3) = pose(1,3) - fPrecision;
+
+    hecatonquiros::ModelSolver::IK_TYPE type = hecatonquiros::ModelSolver::IK_TYPE::IK_3D; 
+
+    std::vector<float> joints;
+	if(armInUse->checkIk(pose, joints, type)){
+		armInUse->joints(joints, true);
+	}else{
+		std::cout << "Not found IK" << std::endl;
+	}
+
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+void Arm_gui::on_Z1_clicked(){
+    QString qPrecision;
+    qPrecision = ui->lineEdit_precision->text();
+    float fPrecision;
+    fPrecision = qPrecision.toFloat();
+
+    auto pose = armInUse->pose();
+    pose(2,3) = pose(2,3) + fPrecision;
+
+    hecatonquiros::ModelSolver::IK_TYPE type = hecatonquiros::ModelSolver::IK_TYPE::IK_3D; 
+
+    std::vector<float> joints;
+	if(armInUse->checkIk(pose, joints, type)){
+		armInUse->joints(joints, true);
+	}else{
+		std::cout << "Not found IK" << std::endl;
+	}
+
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+void Arm_gui::on_Z2_clicked(){
+    QString qPrecision;
+    qPrecision = ui->lineEdit_precision->text();
+    float fPrecision;
+    fPrecision = qPrecision.toFloat();
+
+    auto pose = armInUse->pose();
+    pose(2,3) = pose(2,3) - fPrecision;
+
+    hecatonquiros::ModelSolver::IK_TYPE type = hecatonquiros::ModelSolver::IK_TYPE::IK_3D; 
+
+    std::vector<float> joints;
+	if(armInUse->checkIk(pose, joints, type)){
+		armInUse->joints(joints, true);
+	}else{
+		std::cout << "Not found IK" << std::endl;
+	}
+
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+void Arm_gui::on_ConnectB_clicked(){
     QString qBackend;
     qBackend = ui->comboBox->currentText();
     mBackendArm = qBackend.toStdString();
-    changeBackend(mBackendArm);
+    if(changeBackend(mBackendArm)){
+        std::cout << "Changed backend" << std::endl;
+    }
+    else{
+        std::cout << "NOT changed backend" << std::endl;
+    }
+}
 
+//---------------------------------------------------------------------------------------------------------------------
+void Arm_gui::on_ConnectA_clicked(){
+    if(ui->comboBox_2->currentText() == "Using Right Arm"){
+        mUsingRight = true;
+        armInUse = rightArm;
+        std::cout << "USING RIGHT ARM" << std::endl;
+    }
+    else if(ui->comboBox_2->currentText() == "Using Left Arm"){
+        mUsingRight = false;
+        armInUse = leftArm;
+        std::cout << "USING LEFT ARM" << std::endl;
+    }
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -232,21 +418,6 @@ void Arm_gui::on_Home_clicked()
 {
     std::cout << "Home" <<std::endl;
     armInUse->home();
-}
-
-//---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_comboBox_2_currentIndexChanged(const QString &_arg)
-{
-    if(ui->comboBox_2->currentText() == "Using Right Arm"){
-        mUsingRight = true;
-        armInUse = rightArm;
-        std::cout << "USING RIGHT ARM" << std::endl;
-    }
-    else if(ui->comboBox_2->currentText() == "Using Left Arm"){
-        mUsingRight = false;
-        armInUse = leftArm;
-        std::cout << "USING LEFT ARM" << std::endl;
-    }
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -350,11 +521,22 @@ void Arm_gui::on_Run_autopose_clicked()
     auto pose = armInUse->pose();
     std::cout << "Arm Pose: " << std::endl;
     std::cout << pose << std::endl;
-    /*
-    ui->lineEdit_a1->setText(QString::number( ));
-    ui->lineEdit_a2->setText(QString::number( ));
-    ui->lineEdit_a3->setText(QString::number( ));
-    ui->lineEdit_a4->setText(QString::number( ));
-    ui->lineEdit_a5->setText(QString::number( ));
-    */
+
+    ui->lineEdit_a1->setText(QString::number( pose(0,0) ));
+    ui->lineEdit_a2->setText(QString::number( pose(0,1) ));
+    ui->lineEdit_a3->setText(QString::number( pose(0,2) ));
+    ui->lineEdit_a4->setText(QString::number( pose(0,3) ));
+    ui->lineEdit_a5->setText(QString::number( pose(1,0) ));
+    ui->lineEdit_a6->setText(QString::number( pose(1,1) ));
+    ui->lineEdit_a7->setText(QString::number( pose(1,2) ));
+    ui->lineEdit_a8->setText(QString::number( pose(1,3) ));
+    ui->lineEdit_a9->setText(QString::number( pose(2,0) ));
+    ui->lineEdit_a10->setText(QString::number( pose(2,1) ));
+    ui->lineEdit_a11->setText(QString::number( pose(2,2) ));
+    ui->lineEdit_a12->setText(QString::number( pose(2,3) ));
+    ui->lineEdit_a13->setText(QString::number( pose(3,0) ));
+    ui->lineEdit_a14->setText(QString::number( pose(3,1) ));
+    ui->lineEdit_a15->setText(QString::number( pose(3,2) ));
+    ui->lineEdit_a16->setText(QString::number( pose(3,3) ));
+
 }
