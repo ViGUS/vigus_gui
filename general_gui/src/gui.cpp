@@ -17,6 +17,8 @@ Gui::Gui(QWidget *parent) :
 
     ui->setupUi(this);
     connect(ui->okey_button, SIGNAL(clicked()), this, SLOT(okeyClicked()));
+    connect(ui->change_button_1Col, SIGNAL(clicked()), this, SLOT(change1ColClicked()));
+    connect(ui->change_button_2Col, SIGNAL(clicked()), this, SLOT(change2ColClicked()));
 
     ui->treeWidget->setColumnCount(2);
     ui->treeWidget->setHeaderLabels(QStringList() << "Windows" << "Data");
@@ -56,7 +58,7 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
 
             // Add Root to GUI
             mItemRootUAV = new QTreeWidgetItem(ui->treeWidget);
-            addRoot(mItemRootUAV, "UAV", QString::number(contUAV));
+            addRootGUI(mItemRootUAV, "UAV", QString::number(contUAV));
 
             tinyxml2::XMLElement* itemUAV = childUAV->FirstChildElement("idUAV");
             int idUAV;
@@ -66,7 +68,7 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
             }
             else{
                 // Add Child for UAV Root
-                addChild(mItemRootUAV, "id UAV", QString::number(idUAV));
+                addChildGUI(mItemRootUAV, "id UAV", QString::number(idUAV));
                 mExtractDataUAV.push_back(std::make_pair("idUAV", std::to_string(idUAV)));
             }
                
@@ -79,14 +81,14 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
 
             // Add Root to GUI
             mItemRootArm = new QTreeWidgetItem(ui->treeWidget);
-            addRoot(mItemRootArm, "Arm", QString::number(contArm));
+            addRootGUI(mItemRootArm, "Arm", QString::number(contArm));
             mExtractDataArm.push_back(std::make_pair("IdArm", std::to_string(contArm)));
 
             tinyxml2::XMLElement* itemArm = childArm->FirstChildElement("SerialPort");
             std::string serialPort;
             serialPort = itemArm->GetText();
             // Add Child for Arm Root
-            addChild(mItemRootArm, "Serial Port", QString::fromStdString(serialPort));
+            addChildGUI(mItemRootArm, "Serial Port", QString::fromStdString(serialPort));
             mExtractDataArm.push_back(std::make_pair("Serial Port", serialPort));
 
             itemArm = childArm->FirstChildElement("RobotFile");
@@ -94,7 +96,7 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
                 std::string robotFile = "";
                 robotFile = itemArm->GetText();
                 // Add Child for Arm Root
-                addChild(mItemRootArm, "RobotFile", QString::fromStdString(robotFile));
+                addChildGUI(mItemRootArm, "RobotFile", QString::fromStdString(robotFile));
                 mExtractDataArm.push_back(std::make_pair("RobotFile", robotFile));
             }
 
@@ -103,7 +105,7 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
                 std::string enviromentFile = "";
                 enviromentFile = itemArm->GetText();
                 // Add Child for Arm Root
-                addChild(mItemRootArm, "EnviromentFile", QString::fromStdString(enviromentFile));
+                addChildGUI(mItemRootArm, "EnviromentFile", QString::fromStdString(enviromentFile));
                 mExtractDataArm.push_back(std::make_pair("EnviromentFile", enviromentFile));
             }
             
@@ -111,14 +113,14 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
             std::string visualizer;
             visualizer = itemArm->GetText();
             // Add Child for Arm Root
-            addChild(mItemRootArm, "Visualizer", QString::fromStdString(visualizer));
+            addChildGUI(mItemRootArm, "Visualizer", QString::fromStdString(visualizer));
             mExtractDataArm.push_back(std::make_pair("Visualizer", visualizer));
 
             itemArm = childArm->FirstChildElement("Backend");
             std::string backend;
             backend = itemArm->GetText();
             // Add Child for Arm Root
-            addChild(mItemRootArm, "Backend", QString::fromStdString(backend));
+            addChildGUI(mItemRootArm, "Backend", QString::fromStdString(backend));
             mExtractDataArm.push_back(std::make_pair("Backend", backend));
         }
 
@@ -129,14 +131,14 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
 
             // Add Root to GUI
             mItemRootPointCloud = new QTreeWidgetItem(ui->treeWidget);
-            addRoot(mItemRootPointCloud, "PointCloud", QString::number(contPointCloud));
+            addRootGUI(mItemRootPointCloud, "PointCloud", QString::number(contPointCloud));
 
             tinyxml2::XMLElement* itemPointCloud = childPointCloud->FirstChildElement("DirPCD");
             if(itemPointCloud){
                 std::string dirPCD;
                 dirPCD = itemPointCloud->GetText();
                 // Add Child for PointCloud Root
-                addChild(mItemRootPointCloud, "DirPCD", QString::fromStdString(dirPCD));
+                addChildGUI(mItemRootPointCloud, "DirPCD", QString::fromStdString(dirPCD));
                 mExtractDataPointCloud.push_back(std::make_pair("DirPCD", dirPCD));
             }
             
@@ -145,7 +147,7 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
                 std::string dirTXT;
                 dirTXT = itemPointCloud->GetText();
                 // Add Child for PointCloud Root
-                addChild(mItemRootPointCloud, "DirTXT", QString::fromStdString(dirTXT));
+                addChildGUI(mItemRootPointCloud, "DirTXT", QString::fromStdString(dirTXT));
                 mExtractDataPointCloud.push_back(std::make_pair("DirTXT", dirTXT));
             }
 
@@ -154,7 +156,7 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
                 std::string dirPLY;
                 dirPLY = itemPointCloud->GetText();
                 // Add Child for PointCloud Root
-                addChild(mItemRootPointCloud, "DirPLY", QString::fromStdString(dirPLY));
+                addChildGUI(mItemRootPointCloud, "DirPLY", QString::fromStdString(dirPLY));
                 mExtractDataPointCloud.push_back(std::make_pair("DirPLY", dirPLY));
             }
 
@@ -162,7 +164,7 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
             std::string typePoint;
             typePoint = itemPointCloud->GetText();
             // Add Child for PointCloud Root
-            addChild(mItemRootPointCloud, "TypePoint", QString::fromStdString(typePoint));
+            addChildGUI(mItemRootPointCloud, "TypePoint", QString::fromStdString(typePoint));
             mExtractDataPointCloud.push_back(std::make_pair("TypePoint", typePoint));
 
         }
@@ -181,6 +183,68 @@ void Gui::okeyClicked()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
+void Gui::change1ColClicked()
+{
+    QBrush brush_green(Qt::green);
+    ui->treeWidget->currentItem()->setBackground(0, brush_green);
+
+    QString qOld = ui->treeWidget->currentItem()->text(0);
+    std::string sOld = qOld.toStdString();
+
+    QString qChange = ui->lineEdit_1Col->text();
+    std::string sChange = qChange.toStdString();
+    ui->treeWidget->currentItem()->setText(0, qChange);
+
+    for(int i = 0; i < mExtractDataArm.size(); i++){
+        if(mExtractDataArm[i].first ==  sOld){
+            mExtractDataArm[i].first ==  sChange;
+        }
+    } 
+    for(int i = 0; i < mExtractDataUAV.size(); i++){
+        if(mExtractDataUAV[i].first ==  sOld){
+            mExtractDataUAV[i].first ==  sChange;
+        }
+    }
+    for(int i = 0; i < mExtractDataPointCloud.size(); i++){
+        if(mExtractDataPointCloud[i].first ==  sOld){
+            mExtractDataPointCloud[i].first ==  sChange;
+        }
+    }
+
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+void Gui::change2ColClicked()
+{
+    QBrush brush_green(Qt::green);
+    ui->treeWidget->currentItem()->setBackground(1, brush_green);
+
+    QString qOld = ui->treeWidget->currentItem()->text(1);
+    std::string sOld = qOld.toStdString();
+
+    QString qChange = ui->lineEdit_2Col->text();
+    std::string sChange = qChange.toStdString();
+    ui->treeWidget->currentItem()->setText(1, qChange);
+    
+    for(int i = 0; i < mExtractDataArm.size(); i++){
+        if(mExtractDataArm[i].second ==  sOld){
+            mExtractDataArm[i].second ==  sChange;
+        }
+    } 
+    for(int i = 0; i < mExtractDataUAV.size(); i++){
+        if(mExtractDataUAV[i].second ==  sOld){
+            mExtractDataUAV[i].second ==  sChange;
+        }
+    }
+    for(int i = 0; i < mExtractDataPointCloud.size(); i++){
+        if(mExtractDataPointCloud[i].second ==  sOld){
+            mExtractDataPointCloud[i].second ==  sChange;
+        }
+    }
+
+}
+
+//---------------------------------------------------------------------------------------------------------------------
 void Gui::execWindows()
 {
     std::cout << "Exec Windows" << std::endl;
@@ -192,9 +256,9 @@ void Gui::execWindows()
     //uav_gui->configureGUI(mExtractDataUAV, mArgParser);
     //uav_gui->show();
 
-    arm_gui = new Arm_gui(this);
-    arm_gui->configureGUI(mExtractDataArm);
-    arm_gui->show();
+    //arm_gui = new Arm_gui(this);
+    //arm_gui->configureGUI(mExtractDataArm);
+    //arm_gui->show();
 
     pclviewer_gui = new PCLViewer_gui(this);
     pclviewer_gui->configureGUI(mExtractDataPointCloud);
@@ -204,7 +268,7 @@ void Gui::execWindows()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Gui::addRoot(QTreeWidgetItem *_item, QString _name, QString _description)
+void Gui::addRootGUI(QTreeWidgetItem *_item, QString _name, QString _description)
 {   
     _item->setText(0, _name);
     _item->setText(1, _description);
@@ -212,7 +276,7 @@ void Gui::addRoot(QTreeWidgetItem *_item, QString _name, QString _description)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Gui::addChild(QTreeWidgetItem *_parent, QString _name, QString _description)
+void Gui::addChildGUI(QTreeWidgetItem *_parent, QString _name, QString _description)
 {
     QTreeWidgetItem *item = new QTreeWidgetItem();
     item->setText(0, _name);

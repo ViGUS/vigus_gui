@@ -17,6 +17,7 @@
 #include <QtCore>
 #include <QtGui>
 #include <QTreeWidgetItem>
+#include <QBrush>
 
 #include "pclviewer_gui.h"
 #include "arm_gui.h"
@@ -38,10 +39,12 @@ public:
 
 private slots:
 
+    void change1ColClicked();
+    void change2ColClicked();
     void okeyClicked();
     void execWindows();
-    void addRoot(QTreeWidgetItem *_item, QString _name, QString _description);
-    void addChild(QTreeWidgetItem *_parent, QString _name, QString _description);
+    void addRootGUI(QTreeWidgetItem *_item, QString _name, QString _description);
+    void addChildGUI(QTreeWidgetItem *_parent, QString _name, QString _description);
 
 private:
     Ui::Gui *ui;
