@@ -132,11 +132,31 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
             addRoot(mItemRootPointCloud, "PointCloud", QString::number(contPointCloud));
 
             tinyxml2::XMLElement* itemPointCloud = childPointCloud->FirstChildElement("DirPCD");
-            std::string dirPCD;
-            dirPCD = itemPointCloud->GetText();
-            // Add Child for PointCloud Root
-            addChild(mItemRootPointCloud, "DirPCD", QString::fromStdString(dirPCD));
-            mExtractDataPointCloud.push_back(std::make_pair("DirPCD", dirPCD));
+            if(itemPointCloud){
+                std::string dirPCD;
+                dirPCD = itemPointCloud->GetText();
+                // Add Child for PointCloud Root
+                addChild(mItemRootPointCloud, "DirPCD", QString::fromStdString(dirPCD));
+                mExtractDataPointCloud.push_back(std::make_pair("DirPCD", dirPCD));
+            }
+            
+            itemPointCloud = childPointCloud->FirstChildElement("DirTXT");
+            if(itemPointCloud){
+                std::string dirTXT;
+                dirTXT = itemPointCloud->GetText();
+                // Add Child for PointCloud Root
+                addChild(mItemRootPointCloud, "DirTXT", QString::fromStdString(dirTXT));
+                mExtractDataPointCloud.push_back(std::make_pair("DirTXT", dirTXT));
+            }
+
+            itemPointCloud = childPointCloud->FirstChildElement("DirPLY");
+            if(itemPointCloud){
+                std::string dirPLY;
+                dirPLY = itemPointCloud->GetText();
+                // Add Child for PointCloud Root
+                addChild(mItemRootPointCloud, "DirPLY", QString::fromStdString(dirPLY));
+                mExtractDataPointCloud.push_back(std::make_pair("DirPLY", dirPLY));
+            }
 
             itemPointCloud = childPointCloud->FirstChildElement("TypePoint");
             std::string typePoint;
@@ -176,9 +196,9 @@ void Gui::execWindows()
     arm_gui->configureGUI(mExtractDataArm);
     arm_gui->show();
 
-    //pclviewer_gui = new PCLViewer_gui(this);
-    //pclviewer_gui->configureGUI(mExtractDataPointCloud);
-    //pclviewer_gui->show();
+    pclviewer_gui = new PCLViewer_gui(this);
+    pclviewer_gui->configureGUI(mExtractDataPointCloud);
+    pclviewer_gui->show();
   
 
 }

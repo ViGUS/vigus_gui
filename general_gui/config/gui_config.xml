@@ -10,7 +10,13 @@
         <Visualizer>false</Visualizer>
     </Arm>
     <PointCloud>
+        <!-- 
         <DirPCD>/home/polux/programming/catkin_gui/src/vigus_gui/general_gui/test/bunny.pcd</DirPCD>
-        <TypePoint>PointXYZ</TypePoint>
+        -->
+        <DirTXT>/home/polux/programming/catkin_gui/src/vigus_gui/general_gui/test/testBedCATEC.txt</DirTXT>
+        <!--
+        <DirPLY>/home/polux/programming/catkin_gui/src/vigus_gui/general_gui/test/pointCloudCatecRGB.ply</DirPLY>
+        -->
+        <TypePoint>PointXYZRGB</TypePoint>
     </PointCloud>
 </Windows>
