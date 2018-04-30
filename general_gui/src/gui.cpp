@@ -68,7 +68,7 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
             }
             else{
                 // Add Child for UAV Root
-                addChildGUI(mItemRootUAV, "id UAV", QString::number(idUAV));
+                addChildGUI(mItemRootUAV, "idUAV", QString::number(idUAV));
                 mExtractDataUAV.push_back(std::make_pair("idUAV", std::to_string(idUAV)));
             }
                
@@ -82,14 +82,19 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
             // Add Root to GUI
             mItemRootArm = new QTreeWidgetItem(ui->treeWidget);
             addRootGUI(mItemRootArm, "Arm", QString::number(contArm));
-            mExtractDataArm.push_back(std::make_pair("IdArm", std::to_string(contArm)));
 
-            tinyxml2::XMLElement* itemArm = childArm->FirstChildElement("SerialPort");
+            tinyxml2::XMLElement* itemArm = childArm->FirstChildElement("idArm");
+            int idArm;
+            resultXML = itemArm->QueryIntText(&idArm);
+            addChildGUI(mItemRootArm, "idArm", QString::number(idArm));
+            mExtractDataArm.push_back(std::make_pair("idArm", std::to_string(idArm)));
+
+            itemArm = childArm->FirstChildElement("SerialPort");
             std::string serialPort;
             serialPort = itemArm->GetText();
             // Add Child for Arm Root
-            addChildGUI(mItemRootArm, "Serial Port", QString::fromStdString(serialPort));
-            mExtractDataArm.push_back(std::make_pair("Serial Port", serialPort));
+            addChildGUI(mItemRootArm, "SerialPort", QString::fromStdString(serialPort));
+            mExtractDataArm.push_back(std::make_pair("SerialPort", serialPort));
 
             itemArm = childArm->FirstChildElement("RobotFile");
             if(itemArm){
@@ -180,6 +185,17 @@ void Gui::okeyClicked()
 {
     std::cout << "Thats okey for you, continue!" << std::endl;
     execWindows();
+
+    //for(int i = 0; i < mExtractDataArm.size(); i++){
+    //    std::cout << "Arm: " << mExtractDataArm[i].first << " | " << mExtractDataArm[i].second << std::endl;
+    //    
+    //} 
+    //for(int i = 0; i < mExtractDataUAV.size(); i++){
+    //    std::cout << "UAV: " << mExtractDataUAV[i].first << " | " << mExtractDataUAV[i].second << std::endl;
+    //}
+    //for(int i = 0; i < mExtractDataPointCloud.size(); i++){
+    //    std::cout << "PointCloud: " << mExtractDataPointCloud[i].first << " | " << mExtractDataPointCloud[i].second << std::endl;
+    //}
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -195,19 +211,20 @@ void Gui::change1ColClicked()
     std::string sChange = qChange.toStdString();
     ui->treeWidget->currentItem()->setText(0, qChange);
 
+    // WARNING if there are two identical names it will change both
     for(int i = 0; i < mExtractDataArm.size(); i++){
         if(mExtractDataArm[i].first ==  sOld){
-            mExtractDataArm[i].first ==  sChange;
+            mExtractDataArm[i].first =  sChange;
         }
     } 
     for(int i = 0; i < mExtractDataUAV.size(); i++){
         if(mExtractDataUAV[i].first ==  sOld){
-            mExtractDataUAV[i].first ==  sChange;
+            mExtractDataUAV[i].first =  sChange;
         }
     }
     for(int i = 0; i < mExtractDataPointCloud.size(); i++){
         if(mExtractDataPointCloud[i].first ==  sOld){
-            mExtractDataPointCloud[i].first ==  sChange;
+            mExtractDataPointCloud[i].first =  sChange;
         }
     }
 
@@ -226,19 +243,20 @@ void Gui::change2ColClicked()
     std::string sChange = qChange.toStdString();
     ui->treeWidget->currentItem()->setText(1, qChange);
     
+    // WARNING if there are two identical names it will change both
     for(int i = 0; i < mExtractDataArm.size(); i++){
         if(mExtractDataArm[i].second ==  sOld){
-            mExtractDataArm[i].second ==  sChange;
+            mExtractDataArm[i].second =  sChange;
         }
     } 
     for(int i = 0; i < mExtractDataUAV.size(); i++){
         if(mExtractDataUAV[i].second ==  sOld){
-            mExtractDataUAV[i].second ==  sChange;
+            mExtractDataUAV[i].second =  sChange;
         }
     }
     for(int i = 0; i < mExtractDataPointCloud.size(); i++){
         if(mExtractDataPointCloud[i].second ==  sOld){
-            mExtractDataPointCloud[i].second ==  sChange;
+            mExtractDataPointCloud[i].second =  sChange;
         }
     }
 

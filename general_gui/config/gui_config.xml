@@ -4,6 +4,7 @@
         <idUAV>1</idUAV>
     </UAV>
     <Arm>
+        <idArm>1</idArm>
         <Backend>No Backend</Backend>
         <SerialPort>/dev/ttyUSB0</SerialPort>
         <RobotFile>/home/polux/programming/catkin_gui/src/vigus_gui/hecatonquiros/arm_controller/config/arm_gripper_6dof.robot.xml</RobotFile>

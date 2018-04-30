@@ -83,7 +83,7 @@ Arm_gui::~Arm_gui()
 bool Arm_gui::configureGUI(std::vector<std::pair<std::string, std::string>> _config){
 
     for( int i = 0; i < _config.size(); i++){
-        if( _config[i].first == "IdArm"){
+        if( _config[i].first == "idArm"){
             mIdArm = _config[i].second;
             ui->lineEdit_ID->setText(QString::fromStdString(mIdArm));
         }        
