@@ -172,6 +172,14 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
             addChildGUI(mItemRootPointCloud, "TypePoint", QString::fromStdString(typePoint));
             mExtractDataPointCloud.push_back(std::make_pair("TypePoint", typePoint));
 
+            itemPointCloud = childPointCloud->FirstChildElement("Subscriber");
+            if(itemPointCloud){
+                std::string subscriber;
+                subscriber = itemPointCloud->GetText();
+                // Add Child for PointCloud Root
+                addChildGUI(mItemRootPointCloud, "Subscriber", QString::fromStdString(subscriber));
+                mExtractDataPointCloud.push_back(std::make_pair("Subscriber", subscriber));
+            }
         }
 
     }

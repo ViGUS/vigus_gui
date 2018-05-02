@@ -1,6 +1,9 @@
 #include "pclviewer_gui.h"
 #include "ui_pclviewer_gui.h"
 
+#include <CallbackSubscriber.h>
+
+
 PCLViewer_gui::PCLViewer_gui(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::PCLViewer_gui)
@@ -46,6 +49,10 @@ bool PCLViewer_gui::configureGUI(std::vector<std::pair<std::string, std::string>
             mDirPLY = _config[i].second;
             dir = mDirPLY;
         }
+        if( _config[i].first == "Subscriber"){
+            mNameSubscriber = _config[i].second;
+            dir = mNameSubscriber;   
+        }
     }
 
     if(dir == mDirTXT){
@@ -54,11 +61,32 @@ bool PCLViewer_gui::configureGUI(std::vector<std::pair<std::string, std::string>
         extractPointCloud(mDirPCD);
     }else if(dir == mDirPLY){
         extractPointCloud(mDirPLY);
+    }else if(dir == mNameSubscriber){
+        mSubPCL = new cbs::CallbackSubscriber<sensor_msgs::PointCloud2ConstPtr> (mNameSubscriber);
+        std::cout << "Waiting to receive point cloud... " << std::endl;
+        receivePointCloud(mNameSubscriber);
     }else{
-        std::cout << "NO PTS or PCD Dir extracted!" << std::endl;
+        std::cout << "NO SUBSCRIBER, PTS, PCD or TXT Dir extracted!" << std::endl;    
     }
     
     return true;
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+void PCLViewer_gui::receivePointCloud(std::string _name){
+    mEndSub = true;
+    pcl::PointCloud<pcl::PointXYZRGB> cloudReceived;
+    mListenThread = std::thread([&]() {
+        while(mEndSub){
+            if(mSubPCL->receiveData(cloudReceived)){
+                mCloudT2.reset (new PointCloudT2(cloudReceived));
+                mViewer->removePointCloud("cloudreceived");
+                mViewer->addPointCloud(mCloudT2, "cloudreceived");
+                ui->qvtkWidget->update(); 
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        }
+    });
 }
 
 //---------------------------------------------------------------------------------------------------------------------

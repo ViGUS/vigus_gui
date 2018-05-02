@@ -13,11 +13,12 @@
     <PointCloud>
         <!-- 
         <DirPCD>/home/polux/programming/catkin_gui/src/vigus_gui/general_gui/test/bunny.pcd</DirPCD>
-        -->
+
         <DirTXT>/home/polux/programming/catkin_gui/src/vigus_gui/general_gui/test/testBedCATEC.txt</DirTXT>
-        <!--
+
         <DirPLY>/home/polux/programming/catkin_gui/src/vigus_gui/general_gui/test/pointCloudCatecRGB.ply</DirPLY>
         -->
+        <Subscriber>/gui/receivePointCloud</Subscriber>
         <TypePoint>PointXYZRGB</TypePoint>
     </PointCloud>
 </Windows>

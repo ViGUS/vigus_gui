@@ -6,6 +6,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <thread>
 
 #include <pcl/io/io.h>
 #include <pcl/io/pcd_io.h>
@@ -16,11 +17,21 @@
 
 #include <vtkRenderWindow.h>
 
+#include <ros/ros.h>
+#include <pcl_ros/point_cloud.h>
+#include <pcl/point_types.h>
+#include <pcl_conversions/pcl_conversions.h>
+
 typedef pcl::PointXYZ PointT1;
 typedef pcl::PointCloud<PointT1> PointCloudT1;
 
 typedef pcl::PointXYZRGB PointT2;
 typedef pcl::PointCloud<PointT2> PointCloudT2;
+
+namespace cbs{
+    template<typename T_>
+    class CallbackSubscriber;
+}
 
 namespace Ui
 {
@@ -38,6 +49,8 @@ public:
     bool configureGUI(std::vector<std::pair<std::string, std::string>> _config);
 
 private slots:
+
+    void receivePointCloud(std::string _name);
 
     void updatePointCloudGUI();
 
@@ -59,7 +72,11 @@ private:
     std::string mDirTXT = "";
     std::string mDirPLY = "";
     std::string mTypePoint;
+    std::string mNameSubscriber = "";
     int mContSpheres = 0;
+    bool mEndSub = false;
+    cbs::CallbackSubscriber<sensor_msgs::PointCloud2ConstPtr> *mSubPCL;
+    std::thread mListenThread;
 };
 
 #endif // PCLVIEWER_GUI_H
