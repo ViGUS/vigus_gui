@@ -22,23 +22,23 @@ public:
 
 private slots:
 
-    void on_land_clicked();
+    void landClicked();
 
-    void on_takeOff_clicked();
+    void takeOffClicked();
 
-    void on_Run_x_clicked();
+    void Run_xClicked();
 
-    void on_Run_y_clicked();
+    void Run_yClicked();
 
-    void on_Run_z_clicked();
+    void Run_zClicked();
 
-    void on_Run_pose_clicked();
+    void Run_poseClicked();
 
-    void on_Run_customPose_clicked();
+    void Run_customPoseClicked();
 
-    void on_Run_radiusEight_clicked();
+    void Run_radiusEightClicked();
 
-    void on_Run_radiusCircle_clicked();
+    void Run_radiusCircleClicked();
 
 private:
     Ui::UAV_gui *ui;

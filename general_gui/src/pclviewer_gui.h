@@ -58,7 +58,7 @@ private slots:
 
     bool convertToPointCloud(std::string _dir);
 
-    void on_Delete_Spheres_clicked();
+    void Delete_SpheresClicked();
 
     void pointPickingOccurred(const pcl::visualization::PointPickingEvent &_event, void* _args);
 

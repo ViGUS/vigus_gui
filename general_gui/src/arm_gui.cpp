@@ -22,24 +22,24 @@ Arm_gui::Arm_gui(QWidget *parent) :
     ui->comboBox_2->addItem("Using Left Arm");
     ui->checkBox->setChecked(false);
 
-    connect(ui->Open_Claw, SIGNAL(clicked()), this, SLOT(on_Open_Claw_clicked()));
-    connect(ui->Close_Claw, SIGNAL(clicked()), this, SLOT(on_Close_Claw_clicked()));
-    connect(ui->Home, SIGNAL(clicked()), this, SLOT(on_Home_clicked()));
-    connect(ui->Run_autopose, SIGNAL(clicked()), this, SLOT(on_Run_autopose_clicked()));
-    connect(ui->Run_joints, SIGNAL(clicked()), this, SLOT(on_Run_joints_clicked()));
-    connect(ui->Run_position, SIGNAL(clicked()), this, SLOT(on_Run_position_clicked()));
-    connect(ui->Stop_Claw, SIGNAL(clicked()), this, SLOT(on_Stop_Claw_clicked()));
-    connect(ui->checkBox, SIGNAL(clicked(bool)), this, SLOT(on_checkBox_clicked(bool)));
+    connect(ui->Open_Claw, SIGNAL(clicked()), this, SLOT(Open_ClawClicked()));
+    connect(ui->Close_Claw, SIGNAL(clicked()), this, SLOT(Close_ClawClicked()));
+    connect(ui->Home, SIGNAL(clicked()), this, SLOT(HomeClicked()));
+    connect(ui->Run_autopose, SIGNAL(clicked()), this, SLOT(Run_autoposeClicked()));
+    connect(ui->Run_joints, SIGNAL(clicked()), this, SLOT(Run_jointsClicked()));
+    connect(ui->Run_position, SIGNAL(clicked()), this, SLOT(Run_positionClicked()));
+    connect(ui->Stop_Claw, SIGNAL(clicked()), this, SLOT(Stop_ClawClicked()));
+    connect(ui->checkBox, SIGNAL(clicked(bool)), this, SLOT(checkBoxClicked(bool)));
 
-    connect(ui->ConnectB, SIGNAL(clicked()), this, SLOT(on_ConnectB_clicked()));
-    connect(ui->ConnectA, SIGNAL(clicked()), this, SLOT(on_ConnectA_clicked()));
+    connect(ui->ConnectB, SIGNAL(clicked()), this, SLOT(ConnectBClicked()));
+    connect(ui->ConnectA, SIGNAL(clicked()), this, SLOT(ConnectAClicked()));
 
-    connect(ui->X1, SIGNAL(clicked()), this, SLOT(on_X1_clicked()));
-    connect(ui->X2, SIGNAL(clicked()), this, SLOT(on_X2_clicked()));
-    connect(ui->Y1, SIGNAL(clicked()), this, SLOT(on_Y1_clicked()));
-    connect(ui->Y2, SIGNAL(clicked()), this, SLOT(on_Y2_clicked()));
-    connect(ui->Z1, SIGNAL(clicked()), this, SLOT(on_Z1_clicked()));
-    connect(ui->Z2, SIGNAL(clicked()), this, SLOT(on_Z2_clicked()));
+    connect(ui->X1, SIGNAL(clicked()), this, SLOT(X1Clicked()));
+    connect(ui->X2, SIGNAL(clicked()), this, SLOT(X2Clicked()));
+    connect(ui->Y1, SIGNAL(clicked()), this, SLOT(Y1Clicked()));
+    connect(ui->Y2, SIGNAL(clicked()), this, SLOT(Y2Clicked()));
+    connect(ui->Z1, SIGNAL(clicked()), this, SLOT(Z1Clicked()));
+    connect(ui->Z2, SIGNAL(clicked()), this, SLOT(Z2Clicked()));
 
     QPixmap pixmapX1("src/vigus_gui/general_gui/images/arrow_up.png");
     QIcon ButtonIconX1(pixmapX1);
@@ -240,7 +240,7 @@ bool Arm_gui::changeBackend(std::string _backend){
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_X1_clicked(){
+void Arm_gui::X1Clicked(){
     QString qPrecision;
     qPrecision = ui->lineEdit_precision->text();
     float fPrecision;
@@ -261,7 +261,7 @@ void Arm_gui::on_X1_clicked(){
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_X2_clicked(){
+void Arm_gui::X2Clicked(){
     QString qPrecision;
     qPrecision = ui->lineEdit_precision->text();
     float fPrecision;
@@ -282,7 +282,7 @@ void Arm_gui::on_X2_clicked(){
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_Y1_clicked(){
+void Arm_gui::Y1Clicked(){
     QString qPrecision;
     qPrecision = ui->lineEdit_precision->text();
     float fPrecision;
@@ -303,7 +303,7 @@ void Arm_gui::on_Y1_clicked(){
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_Y2_clicked(){
+void Arm_gui::Y2Clicked(){
     QString qPrecision;
     qPrecision = ui->lineEdit_precision->text();
     float fPrecision;
@@ -324,7 +324,7 @@ void Arm_gui::on_Y2_clicked(){
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_Z1_clicked(){
+void Arm_gui::Z1Clicked(){
     QString qPrecision;
     qPrecision = ui->lineEdit_precision->text();
     float fPrecision;
@@ -345,7 +345,7 @@ void Arm_gui::on_Z1_clicked(){
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_Z2_clicked(){
+void Arm_gui::Z2Clicked(){
     QString qPrecision;
     qPrecision = ui->lineEdit_precision->text();
     float fPrecision;
@@ -366,7 +366,7 @@ void Arm_gui::on_Z2_clicked(){
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_ConnectB_clicked(){
+void Arm_gui::ConnectBClicked(){
     QString qBackend;
     qBackend = ui->comboBox->currentText();
     mBackendArm = qBackend.toStdString();
@@ -379,7 +379,7 @@ void Arm_gui::on_ConnectB_clicked(){
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_ConnectA_clicked(){
+void Arm_gui::ConnectAClicked(){
     if(ui->comboBox_2->currentText() == "Using Right Arm"){
         mUsingRight = true;
         armInUse = rightArm;
@@ -393,35 +393,35 @@ void Arm_gui::on_ConnectA_clicked(){
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_Stop_Claw_clicked()
+void Arm_gui::Stop_ClawClicked()
 {
     std::cout << "Stop claw" <<std::endl;
     armInUse->stopClaw();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_Close_Claw_clicked()
+void Arm_gui::Close_ClawClicked()
 {
     std::cout << "Close claw" <<std::endl;
     armInUse->closeClaw();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_Open_Claw_clicked()
+void Arm_gui::Open_ClawClicked()
 {
     std::cout << "Open Claw" <<std::endl;
     armInUse->openClaw();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_Home_clicked()
+void Arm_gui::HomeClicked()
 {
     std::cout << "Home" <<std::endl;
     armInUse->home();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_checkBox_clicked(bool _checked)
+void Arm_gui::checkBoxClicked(bool _checked)
 {
     if(ui->checkBox->isChecked()){
         ui->lineEdit_p4->setVisible(1);
@@ -442,7 +442,7 @@ void Arm_gui::on_checkBox_clicked(bool _checked)
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_Run_joints_clicked()
+void Arm_gui::Run_jointsClicked()
 {
     std::cout << "Run Joints"<<std::endl;
     
@@ -466,7 +466,7 @@ void Arm_gui::on_Run_joints_clicked()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_Run_position_clicked()
+void Arm_gui::Run_positionClicked()
 {
     std::cout << "Run Position" <<std::endl;
     bool forceOri;
@@ -516,7 +516,7 @@ void Arm_gui::on_Run_position_clicked()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void Arm_gui::on_Run_autopose_clicked()
+void Arm_gui::Run_autoposeClicked()
 {
     auto pose = armInUse->pose();
     std::cout << "Arm Pose: " << std::endl;

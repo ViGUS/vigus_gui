@@ -15,15 +15,15 @@ UAV_gui::UAV_gui(QWidget *parent) :
 
     ui->setupUi(this);
 
-    connect(ui->takeOff, SIGNAL(clicked()), this, SLOT(on_takeOff_clicked()));
-    connect(ui->land, SIGNAL(clicked()), this, SLOT(on_land_clicked()));
-    connect(ui->Run_pose, SIGNAL(clicked()), this, SLOT(on_Run_pose_clicked()));
-    connect(ui->Run_customPose, SIGNAL(clicked()), this, SLOT(on_Run_customPose_clicked()));
-    connect(ui->Run_radiusCircle, SIGNAL(clicked()), this, SLOT(on_Run_radiusCircle_clicked()));
-    connect(ui->Run_radiusEight, SIGNAL(clicked()), this, SLOT(on_Run_radiusEight_clicked()));
-    connect(ui->Run_x, SIGNAL(clicked()), this, SLOT(on_Run_x_clicked()));
-    connect(ui->Run_y, SIGNAL(clicked()), this, SLOT(on_Run_y_clicked()));
-    connect(ui->Run_z, SIGNAL(clicked()), this, SLOT(on_Run_z_clicked()));
+    connect(ui->takeOff, SIGNAL(clicked()), this, SLOT(takeOffClicked()));
+    connect(ui->land, SIGNAL(clicked()), this, SLOT(landClicked()));
+    connect(ui->Run_pose, SIGNAL(clicked()), this, SLOT(Run_poseClicked()));
+    connect(ui->Run_customPose, SIGNAL(clicked()), this, SLOT(Run_customPoseClicked()));
+    connect(ui->Run_radiusCircle, SIGNAL(clicked()), this, SLOT(Run_radiusCircleClicked()));
+    connect(ui->Run_radiusEight, SIGNAL(clicked()), this, SLOT(Run_radiusEightClicked()));
+    connect(ui->Run_x, SIGNAL(clicked()), this, SLOT(Run_xClicked()));
+    connect(ui->Run_y, SIGNAL(clicked()), this, SLOT(Run_yClicked()));
+    connect(ui->Run_z, SIGNAL(clicked()), this, SLOT(Run_zClicked()));
 
     }
 
@@ -58,7 +58,7 @@ bool UAV_gui::configureGUI(std::vector<std::pair<std::string, std::string>> _con
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void UAV_gui::on_takeOff_clicked()
+void UAV_gui::takeOffClicked()
 {
     QString qTakeOff;
     qTakeOff = ui->lineEdit_takeoff->text();
@@ -70,7 +70,7 @@ void UAV_gui::on_takeOff_clicked()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void UAV_gui::on_land_clicked()
+void UAV_gui::landClicked()
 {
     std::cout << "Landing..." <<std::endl;
     mUal->land(true);
@@ -79,7 +79,7 @@ void UAV_gui::on_land_clicked()
 
 
 //---------------------------------------------------------------------------------------------------------------------
-void UAV_gui::on_Run_x_clicked()
+void UAV_gui::Run_xClicked()
 {
     QString qStepX;
     qStepX = ui->lineEdit_sx->text();
@@ -94,7 +94,7 @@ void UAV_gui::on_Run_x_clicked()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void UAV_gui::on_Run_y_clicked()
+void UAV_gui::Run_yClicked()
 {
     QString qStepY;
     qStepY = ui->lineEdit_sy->text();
@@ -109,7 +109,7 @@ void UAV_gui::on_Run_y_clicked()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void UAV_gui::on_Run_z_clicked()
+void UAV_gui::Run_zClicked()
 {
     QString qStepZ;
     qStepZ = ui->lineEdit_sx->text();
@@ -124,7 +124,7 @@ void UAV_gui::on_Run_z_clicked()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void UAV_gui::on_Run_pose_clicked()
+void UAV_gui::Run_poseClicked()
 {
     std::cout << "Show pose from UAL" << std::endl;
     mPose = mUal->pose();
@@ -135,7 +135,7 @@ void UAV_gui::on_Run_pose_clicked()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void UAV_gui::on_Run_customPose_clicked()
+void UAV_gui::Run_customPoseClicked()
 {   
     QString qX, qY, qZ;
     qX = ui->lineEdit_a1->text();
@@ -161,7 +161,7 @@ void UAV_gui::on_Run_customPose_clicked()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void UAV_gui::on_Run_radiusEight_clicked()
+void UAV_gui::Run_radiusEightClicked()
 {
     QString qRadius;
     qRadius = ui->lineEdit_re1->text();
@@ -182,7 +182,7 @@ void UAV_gui::on_Run_radiusEight_clicked()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void UAV_gui::on_Run_radiusCircle_clicked()
+void UAV_gui::Run_radiusCircleClicked()
 {   
     QString qRadius;
     qRadius = ui->lineEdit_rc1->text();

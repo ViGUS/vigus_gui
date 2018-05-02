@@ -264,7 +264,7 @@ void PCLViewer_gui::updatePointCloudGUI()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void PCLViewer_gui::on_Delete_Spheres_clicked(){
+void PCLViewer_gui::Delete_SpheresClicked(){
     
     for(int i = 0; i < mContSpheres; i++){
         std::string removeSphere = "sphere" + std::to_string(i);

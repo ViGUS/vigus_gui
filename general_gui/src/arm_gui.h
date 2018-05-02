@@ -24,37 +24,37 @@ private slots:
 
     bool changeBackend(std::string _backend);
 
-    void on_X1_clicked();
+    void X1Clicked();
 
-    void on_X2_clicked();
+    void X2Clicked();
 
-    void on_Y1_clicked();
+    void Y1Clicked();
 
-    void on_Y2_clicked();
+    void Y2Clicked();
 
-    void on_Z1_clicked();
+    void Z1Clicked();
 
-    void on_Z2_clicked();
+    void Z2Clicked();
 
-    void on_ConnectB_clicked();
+    void ConnectBClicked();
 
-    void on_ConnectA_clicked();
+    void ConnectAClicked();
 
-    void on_Stop_Claw_clicked();
+    void Stop_ClawClicked();
 
-    void on_Close_Claw_clicked();
+    void Close_ClawClicked();
 
-    void on_Open_Claw_clicked();
+    void Open_ClawClicked();
 
-    void on_Home_clicked();
+    void HomeClicked();
+        
+    void checkBoxClicked(bool _checked);
 
-    void on_checkBox_clicked(bool _checked);
+    void Run_jointsClicked();
 
-    void on_Run_joints_clicked();
+    void Run_positionClicked();
 
-    void on_Run_position_clicked();
-
-    void on_Run_autopose_clicked();
+    void Run_autoposeClicked();
 
 private:
     Ui::Arm_gui *ui;
