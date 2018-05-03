@@ -19,6 +19,7 @@
 #include <QTreeWidgetItem>
 #include <QBrush>
 
+#include "camera_gui.h"
 #include "pclviewer_gui.h"
 #include "arm_gui.h"
 #include "uav_gui.h"
@@ -51,16 +52,19 @@ private:
     Arm_gui *arm_gui;
     UAV_gui *uav_gui;
     PCLViewer_gui *pclviewer_gui;
+    Camera_gui *camera_gui;
     
     static grvc::utils::ArgumentParser *mArgParser;
 
     std::vector<std::pair<std::string, std::string>> mExtractDataArm;
     std::vector<std::pair<std::string, std::string>> mExtractDataUAV;
     std::vector<std::pair<std::string, std::string>> mExtractDataPointCloud;
+    std::vector<std::pair<std::string, std::string>> mExtractDataCamera;
 
     QTreeWidgetItem *mItemRootUAV;
     QTreeWidgetItem *mItemRootArm;
     QTreeWidgetItem *mItemRootPointCloud;
+    QTreeWidgetItem *mItemRootCamera;
 };
 
 #endif // GUI_H

@@ -18,7 +18,11 @@
 
         <DirPLY>/home/polux/programming/catkin_gui/src/vigus_gui/general_gui/test/pointCloudCatecRGB.ply</DirPLY>
         -->
-        <Subscriber>/gui/receivePointCloud</Subscriber>
+        <Subscriber>/gui/PointCloud</Subscriber>
         <TypePoint>PointXYZRGB</TypePoint>
     </PointCloud>
+    <Camera>
+        <IPCamera>0.0.0.0</IPCamera>
+        <PortCamera>9000</PortCamera>
+    </Camera>
 </Windows>
