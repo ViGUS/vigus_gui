@@ -41,6 +41,9 @@ Arm_gui::Arm_gui(QWidget *parent) :
     connect(ui->Z1, SIGNAL(clicked()), this, SLOT(Z1Clicked()));
     connect(ui->Z2, SIGNAL(clicked()), this, SLOT(Z2Clicked()));
 
+    connect(ui->Run_addwaypoint, SIGNAL(clicked()), this, SLOT(Run_addWayPointClicked()));
+    connect(ui->Run_waypoints, SIGNAL(clicked()), this, SLOT(Run_WayPointsClicked()));
+
     QPixmap pixmapX1("src/vigus_gui/general_gui/images/arrow_up.png");
     QIcon ButtonIconX1(pixmapX1);
     ui->X1->setIcon(ButtonIconX1);
@@ -540,3 +543,61 @@ void Arm_gui::Run_autoposeClicked()
     ui->lineEdit_a16->setText(QString::number( pose(3,3) ));
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
+void Arm_gui::Run_addWayPointClicked(){
+
+    QString qx, qy, qz, qd;
+    qx = ui->lineEdit_XAddWP->text();
+    qy = ui->lineEdit_YAddWP->text();
+    qz = ui->lineEdit_ZAddWP->text();
+    qd = ui->lineEdit_DAddWP->text();
+
+    float x, y, z, d;
+    x = qx.toFloat();
+    y = qy.toFloat();
+    z = qz.toFloat();
+    d = qd.toInt();
+
+    std::vector<float> point = {x, y, z};
+    mWayPoints.push_back(std::make_pair(point, d));
+
+    std::string swaypoint = "X: " + std::to_string(x) + " , " +  "Y: " + std::to_string(y) + " , " + "Z: " + std::to_string(z) + " , " + "D: " + std::to_string(d);
+    
+    ui->listWidget_WayPoints->addItem(QString::fromStdString(swaypoint));
+
+    
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+void Arm_gui::Run_WayPointsClicked(){
+
+    for(int i = 0; i < mWayPoints.size(); i++ ){
+        Eigen::Matrix4f pose;
+        pose = Eigen::Matrix4f::Identity();
+        pose(0,3) = mWayPoints[i].first[0];
+        pose(1,3) = mWayPoints[i].first[1];
+        pose(2,3) = mWayPoints[i].first[2];
+    
+        hecatonquiros::ModelSolver::IK_TYPE type;
+        type = hecatonquiros::ModelSolver::IK_TYPE::IK_3D;
+    
+        std::vector<float> joints;
+	    if(armInUse->checkIk(pose, joints, type)){
+	    	armInUse->joints(joints, true);
+	    }else{
+	    	std::cout << "Not found IK" << std::endl;
+	    }
+    
+        std::this_thread::sleep_for(std::chrono::milliseconds(mWayPoints[i].second));
+    }
+
+    mWayPoints.clear();
+
+    while(ui->listWidget_WayPoints->count() > 0)
+    {
+        delete ui->listWidget_WayPoints->takeItem(0);                        
+    }
+
+}
+

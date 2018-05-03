@@ -2,6 +2,9 @@
 #define ARM_GUI_H
 
 #include <QMainWindow>
+#include <QStringList>
+#include <QtGui>
+#include <QtCore>
 
 #include <hecatonquiros/Positioner.h>
 #include <hecatonquiros/Arm4DoF.h>
@@ -56,6 +59,10 @@ private slots:
 
     void Run_autoposeClicked();
 
+    void Run_addWayPointClicked();
+
+    void Run_WayPointsClicked();
+
 private:
     Ui::Arm_gui *ui;
 
@@ -74,6 +81,8 @@ private:
     std::string mEnviromentFile = "";
     std::string mRobotFile = "";
     bool mVisualizer;
+
+    std::vector<std::pair<std::vector<float>, int>> mWayPoints;
 };
 
 #endif // ARM_GUI_H

@@ -182,7 +182,7 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
             }
         }
 
-        int contCamera++;
+        int contCamera = 0;
         for (tinyxml2::XMLElement* childCamera = rootWindows->FirstChildElement("Camera"); childCamera != NULL; childCamera = childCamera->NextSiblingElement("Camera")){
             contCamera++;  
 
@@ -196,11 +196,11 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
             addChildGUI(mItemRootCamera, "IPCamera", QString::fromStdString(ipCamera));
             mExtractDataCamera.push_back(std::make_pair("IPCamera", ipCamera));
 
-            itemCamera = childCamera->FirstChildElement("idArm");
-            int portCamera;
-            resultXML = childCamera->QueryIntText(&portCamera);
-            addChildGUI(mItemRootCamera, "PortCamera", QString::number(portCamera));
-            mExtractDataCamera.push_back(std::make_pair("PortCamera", std::to_string(portCamera)));
+            itemCamera = childCamera->FirstChildElement("PortCamera");
+            std::string portCamera;
+            portCamera = itemCamera->GetText();
+            addChildGUI(mItemRootCamera, "PortCamera", QString::fromStdString(portCamera));
+            mExtractDataCamera.push_back(std::make_pair("PortCamera", portCamera));
                
         }
 
