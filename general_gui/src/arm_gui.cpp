@@ -41,9 +41,14 @@ Arm_gui::Arm_gui(QWidget *parent) :
     connect(ui->Z1, SIGNAL(clicked()), this, SLOT(Z1Clicked()));
     connect(ui->Z2, SIGNAL(clicked()), this, SLOT(Z2Clicked()));
 
+    connect(ui->Run_readLoadPos1, SIGNAL(clicked()), this, SLOT(Run_readPosLoad1Clicked()));
+    connect(ui->Run_readLoadPosC, SIGNAL(clicked()), this, SLOT(Run_readPosLoadCClicked()));
+    connect(ui->Stop_readLoadPosC, SIGNAL(clicked()), this, SLOT(Stop_readPosLoadCClicked()));
+    
+
     connect(ui->Run_addwaypoint, SIGNAL(clicked()), this, SLOT(Run_addWayPointClicked()));
     connect(ui->Run_waypoints, SIGNAL(clicked()), this, SLOT(Run_WayPointsClicked()));
-
+    
     QPixmap pixmapX1("src/vigus_gui/general_gui/images/arrow_up.png");
     QIcon ButtonIconX1(pixmapX1);
     ui->X1->setIcon(ButtonIconX1);
@@ -600,4 +605,75 @@ void Arm_gui::Run_WayPointsClicked(){
     }
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
+void Arm_gui::Run_readPosLoad1Clicked(){
+    QString qjoint;
+    qjoint = ui->lineEdit_idread->text();
+    
+    int jointToRead;
+    jointToRead = qjoint.toInt();
+    
+    int load = armInUse->readLoad(jointToRead);
+    ui->lineEdit_load->setText(QString::number( load ));
+
+    int pos = armInUse->readPos(jointToRead);
+    ui->lineEdit_pos->setText(QString::number( pos ));
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+void Arm_gui::Run_readPosLoadCClicked(){
+    mEndRead = true;
+    int load = 0, pos = 0;
+    mListenThread = std::thread([&]() {
+        while(mEndRead){
+            
+            load = armInUse->readLoad(0);
+            ui->lineEdit_load0->setText(QString::number( load ));
+            pos = armInUse->readPos(0);
+            ui->lineEdit_pos0->setText(QString::number( pos ));
+
+            load = armInUse->readLoad(1);
+            ui->lineEdit_load1->setText(QString::number( load ));
+            pos = armInUse->readPos(1);
+            ui->lineEdit_pos1->setText(QString::number( pos ));
+
+            load = armInUse->readLoad(2);
+            ui->lineEdit_load2->setText(QString::number( load ));
+            pos = armInUse->readPos(2);
+            ui->lineEdit_pos2->setText(QString::number( pos ));
+
+            load = armInUse->readLoad(3);
+            ui->lineEdit_load3->setText(QString::number( load ));
+            pos = armInUse->readPos(3);
+            ui->lineEdit_pos3->setText(QString::number( pos ));
+
+            load = armInUse->readLoad(4);
+            ui->lineEdit_load4->setText(QString::number( load ));
+            pos = armInUse->readPos(4);
+            ui->lineEdit_pos4->setText(QString::number( pos ));
+
+            load = armInUse->readLoad(5);
+            ui->lineEdit_load5->setText(QString::number( load ));
+            pos = armInUse->readPos(5);
+            ui->lineEdit_pos5->setText(QString::number( pos ));
+
+            load = armInUse->readLoad(6);
+            ui->lineEdit_load6->setText(QString::number( load ));
+            pos = armInUse->readPos(6);
+            ui->lineEdit_pos6->setText(QString::number( pos ));
+            
+            std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        }
+    });
+    
+
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+void Arm_gui::Stop_readPosLoadCClicked(){
+    mEndRead = false; 
+}
+
+
 

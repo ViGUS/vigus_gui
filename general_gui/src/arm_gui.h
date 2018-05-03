@@ -63,6 +63,12 @@ private slots:
 
     void Run_WayPointsClicked();
 
+    void Run_readPosLoad1Clicked();
+
+    void Run_readPosLoadCClicked();
+
+    void Stop_readPosLoadCClicked();
+
 private:
     Ui::Arm_gui *ui;
 
@@ -81,6 +87,9 @@ private:
     std::string mEnviromentFile = "";
     std::string mRobotFile = "";
     bool mVisualizer;
+
+    std::thread mListenThread;
+    bool mEndRead = false;
 
     std::vector<std::pair<std::vector<float>, int>> mWayPoints;
 };
