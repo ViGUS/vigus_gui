@@ -21,7 +21,7 @@ public:
 private slots:
     bool connectStreaming();
     bool runStreaming();
-    void putImage();
+    bool putImage();
 
 private:
     Ui::Camera_gui *ui;

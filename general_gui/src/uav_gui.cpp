@@ -34,7 +34,7 @@ UAV_gui::~UAV_gui()
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-bool UAV_gui::configureGUI(std::vector<std::pair<std::string, std::string>> _config, grvc::utils::ArgumentParser *_argParser)
+bool UAV_gui::configureGUI(std::vector<std::pair<std::string, std::string>> _config, int _argcCopy, char ** _argvCopy)
 {
     int argc;
     char **argv;
@@ -45,9 +45,9 @@ bool UAV_gui::configureGUI(std::vector<std::pair<std::string, std::string>> _con
         }
     }
     
-    _argParser->setArgument("uav_id", mIdUAV);
+    // TODO: SET ID TO UAV FOR MULTIPLE UAV
 
-    mUal = new grvc::ual::UAL(*_argParser);
+    mUal = new grvc::ual::UAL(_argcCopy, _argvCopy);
     while (!mUal->isReady() && ros::ok()) {
         sleep(1);
     }

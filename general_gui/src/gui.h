@@ -23,7 +23,6 @@
 #include "pclviewer_gui.h"
 #include "arm_gui.h"
 #include "uav_gui.h"
-#include <argument_parser/argument_parser.h>
 
 namespace Ui {
 class Gui;
@@ -53,8 +52,9 @@ private:
     UAV_gui *uav_gui;
     PCLViewer_gui *pclviewer_gui;
     Camera_gui *camera_gui;
-    
-    static grvc::utils::ArgumentParser *mArgParser;
+
+    int mArgC;
+    char **mArgV;
 
     std::vector<std::pair<std::string, std::string>> mExtractDataArm;
     std::vector<std::pair<std::string, std::string>> mExtractDataUAV;

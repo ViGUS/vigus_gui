@@ -79,6 +79,9 @@ Arm_gui::Arm_gui(QWidget *parent) :
     ui->Z2->setIcon(ButtonIconZ2);
     ui->Z2->setIconSize(pixmapZ2.rect().size());
 
+    ui->scrollArea_2->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    ui->scrollArea_2->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+
     }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -177,8 +180,8 @@ bool Arm_gui::changeBackend(std::string _backend){
         //                                {-147.468, 147.564}};
         //backendConfig2.jointsOffsets = { 0,	0,	0, 0,	0,	0};
 
-        backendConfig1.configXML = "src/hecatonquiros/arm_controller/config/config_arm2.xml";
-		backendConfig2.configXML = "src/hecatonquiros/arm_controller/config/config_arm1.xml";
+        backendConfig1.configXML = "src/hecatonquiros/arm_controller/config/config_arm1.xml";
+		backendConfig2.configXML = "src/hecatonquiros/arm_controller/config/config_arm2.xml";
 
 		backendConfig1.type = hecatonquiros::Backend::Config::eType::Feetech; backendConfig1.port = mSerialPortArm; backendConfig1.armId =1;
 		backendConfig2.type = hecatonquiros::Backend::Config::eType::Feetech; backendConfig2.port = mSerialPortArm; backendConfig2.armId =2;

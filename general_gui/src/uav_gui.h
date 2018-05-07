@@ -4,7 +4,6 @@
 #include <QMainWindow>
 
 #include <uav_abstraction_layer/ual.h>
-#include <argument_parser/argument_parser.h>
 
 namespace Ui {
 class UAV_gui;
@@ -18,7 +17,7 @@ public:
     explicit UAV_gui(QWidget *parent = 0);
     ~UAV_gui();
 
-    bool configureGUI(std::vector<std::pair<std::string, std::string>> _config, grvc::utils::ArgumentParser *_argParser);
+    bool configureGUI(std::vector<std::pair<std::string, std::string>> _config, int _argcCopy, char ** _argvCopy);
 
 private slots:
 

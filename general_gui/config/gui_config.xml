@@ -5,9 +5,9 @@
     </UAV>
     <Arm>
         <idArm>1</idArm>
-        <Backend>No Backend</Backend>
+        <Backend>Feetech</Backend>
         <SerialPort>/dev/ttyUSB0</SerialPort>
-        <RobotFile>/home/polux/programming/catkin_gui/src/vigus_gui/hecatonquiros/arm_controller/config/arm_gripper_6dof.robot.xml</RobotFile>
+        <RobotFile>/home/polux/programming/catkin_gui/src/hecatonquiros/arm_controller/config/arm_gripper_6dof.robot.xml</RobotFile>
         <Visualizer>false</Visualizer>
     </Arm>
     <PointCloud>

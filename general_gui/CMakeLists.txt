@@ -34,15 +34,14 @@ find_package(catkin REQUIRED COMPONENTS
 			roscpp
 			hecatonquiros
 			uav_abstraction_layer
-			argument_parser
             )
 
 catkin_package(
-CATKIN_DEPENDS roscpp std_msgs hecatonquiros uav_abstraction_layer geometry_msgs argument_parser
+CATKIN_DEPENDS roscpp std_msgs hecatonquiros uav_abstraction_layer geometry_msgs
 )
 
 ## Load PCL
-find_package(PCL 1.8 QUIET REQUIRED)
+find_package(PCL 1.7 QUIET REQUIRED)
 if(${PCL_FOUND} AND ${VTK_FOUND} AND ${Boost_FOUND} AND ${FLANN_FOUND} STREQUAL "TRUE")
 	MESSAGE( STATUS "Adding properly PCL and its dependencies")
 	add_definitions(-DENABLE_PCL)

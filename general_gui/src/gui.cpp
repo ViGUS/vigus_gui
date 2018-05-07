@@ -34,7 +34,8 @@ Gui::~Gui()
 //---------------------------------------------------------------------------------------------------------------------
 bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
 {   
-    mArgParser = new grvc::utils::ArgumentParser(_argcCopy, _argvCopy);
+    mArgC = _argcCopy;
+    mArgV = _argvCopy;
 
     tinyxml2::XMLDocument xml_doc;
     //std::cout << "XML Path: " << _pathXML << std::endl; 
@@ -309,7 +310,7 @@ void Gui::execWindows()
     // TODO: HACER QUE SE PUEDA CAMBIAR MANUALMENTE!!
 
     //uav_gui = new UAV_gui(this);
-    //uav_gui->configureGUI(mExtractDataUAV, mArgParser);
+    //uav_gui->configureGUI(mExtractDataUAV, mArgC, mArgV);
     //uav_gui->show();
 
     arm_gui = new Arm_gui(this);
@@ -342,7 +343,3 @@ void Gui::addChildGUI(QTreeWidgetItem *_parent, QString _name, QString _descript
     item->setText(1, _description);
     _parent->addChild(item);
 }
-
-//---------------------------------------------------------------------------------------------------------------------
-// Static Variable
-grvc::utils::ArgumentParser *Gui::mArgParser = nullptr;
