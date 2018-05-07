@@ -79,8 +79,8 @@ Arm_gui::Arm_gui(QWidget *parent) :
     ui->Z2->setIcon(ButtonIconZ2);
     ui->Z2->setIconSize(pixmapZ2.rect().size());
 
-    ui->scrollArea_2->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    ui->scrollArea_2->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    ui->scrollArea_6->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    ui->scrollArea_6->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
     }
 
