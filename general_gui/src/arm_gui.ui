@@ -45,7 +45,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="Connect">
        <attribute name="title">
@@ -594,7 +594,7 @@
          <widget class="QLabel" name="label_31">
           <property name="geometry">
            <rect>
-            <x>440</x>
+            <x>470</x>
             <y>200</y>
             <width>191</width>
             <height>31</height>
@@ -633,8 +633,8 @@
          <widget class="QCommandLinkButton" name="Run_waypoints">
           <property name="geometry">
            <rect>
-            <x>630</x>
-            <y>200</y>
+            <x>650</x>
+            <y>220</y>
             <width>81</width>
             <height>31</height>
            </rect>
@@ -650,8 +650,8 @@
           <property name="geometry">
            <rect>
             <x>430</x>
-            <y>240</y>
-            <width>341</width>
+            <y>270</y>
+            <width>321</width>
             <height>241</height>
            </rect>
           </property>
@@ -663,7 +663,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>339</width>
+             <width>319</width>
              <height>239</height>
             </rect>
            </property>
@@ -672,7 +672,7 @@
              <rect>
               <x>10</x>
               <y>10</y>
-              <width>321</width>
+              <width>301</width>
               <height>221</height>
              </rect>
             </property>
@@ -1202,6 +1202,19 @@
            <string>Stop</string>
           </property>
          </widget>
+         <widget class="QPushButton" name="DeleteWP">
+          <property name="geometry">
+           <rect>
+            <x>479</x>
+            <y>231</y>
+            <width>111</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Delete Points</string>
+          </property>
+         </widget>
          <zorder>listView_7</zorder>
          <zorder>listView_5</zorder>
          <zorder>listView_3</zorder>
@@ -1275,6 +1288,7 @@
          <zorder>lineEdit_load5</zorder>
          <zorder>lineEdit_load6</zorder>
          <zorder>Stop_readLoadPosC</zorder>
+         <zorder>DeleteWP</zorder>
         </widget>
        </widget>
       </widget>
@@ -1993,6 +2007,36 @@
            <string>Axis X+</string>
           </property>
          </widget>
+         <zorder>listView_4</zorder>
+         <zorder>label_21</zorder>
+         <zorder>lineEdit_p3</zorder>
+         <zorder>label_19</zorder>
+         <zorder>label_22</zorder>
+         <zorder>label_18</zorder>
+         <zorder>Run_position</zorder>
+         <zorder>label_20</zorder>
+         <zorder>lineEdit_p5</zorder>
+         <zorder>lineEdit_p6</zorder>
+         <zorder>label_23</zorder>
+         <zorder>lineEdit_p2</zorder>
+         <zorder>checkBox</zorder>
+         <zorder>lineEdit_p4</zorder>
+         <zorder>label_4</zorder>
+         <zorder>lineEdit_p1</zorder>
+         <zorder>label_14</zorder>
+         <zorder>Y1</zorder>
+         <zorder>Y2</zorder>
+         <zorder>Z1</zorder>
+         <zorder>label_26</zorder>
+         <zorder>label_13</zorder>
+         <zorder>label_16</zorder>
+         <zorder>lineEdit_precision</zorder>
+         <zorder>label_17</zorder>
+         <zorder>label_15</zorder>
+         <zorder>X1</zorder>
+         <zorder>Z2</zorder>
+         <zorder>X2</zorder>
+         <zorder>label_5</zorder>
         </widget>
        </widget>
       </widget>

@@ -5,6 +5,7 @@
 #include <QStringList>
 #include <QtGui>
 #include <QtCore>
+#include <mutex>
 
 #include <hecatonquiros/Positioner.h>
 #include <hecatonquiros/Arm4DoF.h>
@@ -39,6 +40,8 @@ private slots:
 
     void Z2Clicked();
 
+    void DeleteWPClicked();
+    
     void ConnectBClicked();
 
     void ConnectAClicked();
@@ -88,6 +91,7 @@ private:
     std::string mRobotFile = "";
     bool mVisualizer;
 
+    std::mutex mSecureLock;
     std::thread mListenThread;
     bool mEndRead = false;
 
