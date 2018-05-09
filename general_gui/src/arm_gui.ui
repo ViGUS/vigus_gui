@@ -594,10 +594,10 @@
          <widget class="QLabel" name="label_31">
           <property name="geometry">
            <rect>
-            <x>470</x>
-            <y>200</y>
+            <x>510</x>
+            <y>190</y>
             <width>191</width>
-            <height>31</height>
+            <height>41</height>
            </rect>
           </property>
           <property name="text">
@@ -633,8 +633,8 @@
          <widget class="QCommandLinkButton" name="Run_waypoints">
           <property name="geometry">
            <rect>
-            <x>650</x>
-            <y>220</y>
+            <x>610</x>
+            <y>260</y>
             <width>81</width>
             <height>31</height>
            </rect>
@@ -649,8 +649,8 @@
          <widget class="QScrollArea" name="scrollArea">
           <property name="geometry">
            <rect>
-            <x>430</x>
-            <y>270</y>
+            <x>440</x>
+            <y>310</y>
             <width>321</width>
             <height>241</height>
            </rect>
@@ -1205,14 +1205,27 @@
          <widget class="QPushButton" name="DeleteWP">
           <property name="geometry">
            <rect>
-            <x>479</x>
-            <y>231</y>
+            <x>470</x>
+            <y>240</y>
             <width>111</width>
             <height>31</height>
            </rect>
           </property>
           <property name="text">
            <string>Delete Points</string>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="checkBox_STraj">
+          <property name="geometry">
+           <rect>
+            <x>610</x>
+            <y>230</y>
+            <width>151</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Smoth trajectory</string>
           </property>
          </widget>
          <zorder>listView_7</zorder>
@@ -1289,6 +1302,7 @@
          <zorder>lineEdit_load6</zorder>
          <zorder>Stop_readLoadPosC</zorder>
          <zorder>DeleteWP</zorder>
+         <zorder>checkBox_STraj</zorder>
         </widget>
        </widget>
       </widget>

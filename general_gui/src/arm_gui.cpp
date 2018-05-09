@@ -618,26 +618,61 @@ void Arm_gui::Run_addWayPointClicked(){
 //---------------------------------------------------------------------------------------------------------------------
 void Arm_gui::Run_WayPointsClicked(){
 
-    for(int i = 0; i < mWayPoints.size(); i++ ){
-        Eigen::Matrix4f pose;
-        pose = Eigen::Matrix4f::Identity();
-        pose(0,3) = mWayPoints[i].first[0];
-        pose(1,3) = mWayPoints[i].first[1];
-        pose(2,3) = mWayPoints[i].first[2];
-    
-        hecatonquiros::ModelSolver::IK_TYPE type;
-        type = hecatonquiros::ModelSolver::IK_TYPE::IK_3D;
-    
-        std::vector<float> joints;
-        mSecureLock.lock();
-	    if(armInUse->checkIk(pose, joints, type)){
-	    	armInUse->joints(joints, true);
-	    }else{
-	    	std::cout << "Not found IK" << std::endl;
-	    }
-        mSecureLock.unlock();
+    bool smoothTraj = ui->checkBox_STraj->isChecked();
+    if(smoothTraj){
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(mWayPoints[i].second));
+        std::vector<Eigen::Matrix4f> poses;
+        for(int i = 0; i < mWayPoints.size(); i++){
+            Eigen::Matrix4f pose;
+            pose = Eigen::Matrix4f::Identity();
+            pose(0,3) = mWayPoints[i].first[0];
+            pose(1,3) = mWayPoints[i].first[1];
+            pose(2,3) = mWayPoints[i].first[2];
+            poses.push_back(pose);
+        }
+
+        std::vector<std::vector<double>> jointsTraj;
+        float timeTraj;
+        if(armInUse->getSmoothTraj( poses, jointsTraj, timeTraj)){
+            for(int i = 0; i < jointsTraj.size(); i++){
+                std::vector<float> auxJoints;
+                for(auto &v:jointsTraj[i]){
+                    auxJoints.push_back(v);
+                }
+
+                mSecureLock.lock();
+                armInUse->joints(auxJoints, true);
+                mSecureLock.unlock();
+
+                int timeToWait = (timeTraj/jointsTraj.size());
+                std::this_thread::sleep_for(std::chrono::milliseconds(timeToWait));
+            }
+        }
+        else{
+            std::cout << "Error in Smooth Trajectory" << std::endl;
+        }
+    }else{
+        for(int i = 0; i < mWayPoints.size(); i++ ){
+            Eigen::Matrix4f pose;
+            pose = Eigen::Matrix4f::Identity();
+            pose(0,3) = mWayPoints[i].first[0];
+            pose(1,3) = mWayPoints[i].first[1];
+            pose(2,3) = mWayPoints[i].first[2];
+    
+            hecatonquiros::ModelSolver::IK_TYPE type;
+            type = hecatonquiros::ModelSolver::IK_TYPE::IK_3D;
+    
+            std::vector<float> joints;
+            mSecureLock.lock();
+	        if(armInUse->checkIk(pose, joints, type)){
+	        	armInUse->joints(joints, true);
+	        }else{
+	        	std::cout << "Not found IK" << std::endl;
+	        }
+            mSecureLock.unlock();
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(mWayPoints[i].second));
+        }
     }
 
 }
