@@ -45,7 +45,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="Connect">
        <attribute name="title">
@@ -108,7 +108,7 @@
            </rect>
           </property>
           <property name="text">
-           <string>Connect</string>
+           <string>Select</string>
           </property>
          </widget>
          <widget class="QComboBox" name="comboBox">
@@ -318,7 +318,7 @@
          <widget class="QCommandLinkButton" name="Run_autopose">
           <property name="geometry">
            <rect>
-            <x>170</x>
+            <x>90</x>
             <y>210</y>
             <width>81</width>
             <height>31</height>
@@ -1228,6 +1228,22 @@
            <string>Smoth trajectory</string>
           </property>
          </widget>
+         <widget class="QCommandLinkButton" name="Run_savepose">
+          <property name="geometry">
+           <rect>
+            <x>280</x>
+            <y>210</y>
+            <width>81</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Save</string>
+          </property>
+         </widget>
          <zorder>listView_7</zorder>
          <zorder>listView_5</zorder>
          <zorder>listView_3</zorder>
@@ -1303,6 +1319,7 @@
          <zorder>Stop_readLoadPosC</zorder>
          <zorder>DeleteWP</zorder>
          <zorder>checkBox_STraj</zorder>
+         <zorder>Run_savepose</zorder>
         </widget>
        </widget>
       </widget>

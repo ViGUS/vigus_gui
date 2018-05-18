@@ -27,6 +27,7 @@ Arm_gui::Arm_gui(QWidget *parent) :
     connect(ui->Open_Claw, SIGNAL(clicked()), this, SLOT(Open_ClawClicked()));
     connect(ui->Close_Claw, SIGNAL(clicked()), this, SLOT(Close_ClawClicked()));
     connect(ui->Home, SIGNAL(clicked()), this, SLOT(HomeClicked()));
+    connect(ui->Run_savepose, SIGNAL(clicked()), this, SLOT(Run_saveposeClicked()));
     connect(ui->Run_autopose, SIGNAL(clicked()), this, SLOT(Run_autoposeClicked()));
     connect(ui->Run_joints, SIGNAL(clicked()), this, SLOT(Run_jointsClicked()));
     connect(ui->Run_position, SIGNAL(clicked()), this, SLOT(Run_positionClicked()));
@@ -589,6 +590,28 @@ void Arm_gui::Run_autoposeClicked()
     ui->lineEdit_a16->setText(QString::number( pose(3,3) ));
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------
+void Arm_gui::Run_saveposeClicked()
+{
+    mSecureLock.lock();
+    auto pose = armInUse->pose();
+    mSecureLock.unlock();
+
+    QString qd;
+    qd = ui->lineEdit_DAddWP->text();
+    float d;
+    d = qd.toInt();
+
+    std::vector<float> point = {pose(0,3), pose(1,3), pose(2,3)};
+    mWayPoints.push_back(std::make_pair(point, d));
+
+    std::string swaypoint = "X: " + std::to_string(pose(0,3)) + " , " +  "Y: " + std::to_string(pose(1,3)) + " , " + "Z: " + std::to_string(pose(2,3)) + " , " + "D: " + std::to_string(d);
+    
+    ui->listWidget_WayPoints->addItem(QString::fromStdString(swaypoint));
+
+}
+
 
 //---------------------------------------------------------------------------------------------------------------------
 void Arm_gui::Run_addWayPointClicked(){

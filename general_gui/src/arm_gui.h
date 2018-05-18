@@ -60,6 +60,8 @@ private slots:
 
     void Run_positionClicked();
 
+    void Run_saveposeClicked();
+
     void Run_autoposeClicked();
 
     void Run_addWayPointClicked();
