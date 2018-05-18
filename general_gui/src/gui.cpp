@@ -20,6 +20,11 @@ Gui::Gui(QWidget *parent) :
     connect(ui->change_button_1Col, SIGNAL(clicked()), this, SLOT(change1ColClicked()));
     connect(ui->change_button_2Col, SIGNAL(clicked()), this, SLOT(change2ColClicked()));
 
+    ui->checkBoxCamera->setChecked(false);
+    ui->checkBoxPointCloud->setChecked(false);
+    ui->checkBoxArm->setChecked(false);
+    ui->checkBoxUAV->setChecked(false);
+
     ui->treeWidget->setColumnCount(2);
     ui->treeWidget->setHeaderLabels(QStringList() << "Windows" << "Data");
 
@@ -307,24 +312,27 @@ void Gui::execWindows()
     std::cout << "Exec Windows" << std::endl;
     this->close();
     // TODO: HACER GENERAL!!! SE PUEDA METER TODOS LOS UAV Y ARMS QUE SE QUIERA!!
-    // TODO: HACER QUE SE PUEDA CAMBIAR MANUALMENTE!!
 
-    //uav_gui = new UAV_gui(this);
-    //uav_gui->configureGUI(mExtractDataUAV, mArgC, mArgV);
-    //uav_gui->show();
-
-    arm_gui = new Arm_gui(this);
-    arm_gui->configureGUI(mExtractDataArm);
-    arm_gui->show();
-
-    //pclviewer_gui = new PCLViewer_gui(this);
-    //pclviewer_gui->configureGUI(mExtractDataPointCloud);
-    //pclviewer_gui->show();
-  
-    //camera_gui = new Camera_gui(this);
-    //camera_gui->configureGUI(mExtractDataCamera);
-    //camera_gui->show();
-
+    if(ui->checkBoxArm->isChecked()){
+        arm_gui = new Arm_gui(this);
+        arm_gui->configureGUI(mExtractDataArm);
+        arm_gui->show();
+    }
+    if(ui->checkBoxCamera->isChecked()){
+        camera_gui = new Camera_gui(this);
+        camera_gui->configureGUI(mExtractDataCamera);
+        camera_gui->show();
+    }
+    if(ui->checkBoxPointCloud->isChecked()){
+        pclviewer_gui = new PCLViewer_gui(this);
+        pclviewer_gui->configureGUI(mExtractDataPointCloud);
+        pclviewer_gui->show();
+    }
+    if(ui->checkBoxUAV->isChecked()){
+        uav_gui = new UAV_gui(this);
+        uav_gui->configureGUI(mExtractDataUAV, mArgC, mArgV);
+        uav_gui->show();
+    }
 }
 
 //---------------------------------------------------------------------------------------------------------------------

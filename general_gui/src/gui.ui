@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>613</width>
+    <width>881</width>
     <height>600</height>
    </rect>
   </property>
@@ -115,14 +115,61 @@
      </item>
     </layout>
    </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_4">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>90</y>
+      <width>231</width>
+      <height>161</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_4">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Select what do you want to launch:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBoxUAV">
+       <property name="text">
+        <string>UAV</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBoxArm">
+       <property name="text">
+        <string>Arm</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBoxCamera">
+       <property name="text">
+        <string>Camera</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBoxPointCloud">
+       <property name="text">
+        <string>PointCloud</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>613</width>
-     <height>22</height>
+     <width>881</width>
+     <height>19</height>
     </rect>
    </property>
   </widget>
