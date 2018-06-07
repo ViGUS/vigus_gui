@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>general_gui</name>
+  <name>libraries_gui</name>
   <version>0.0.1</version>
-  <description> General GUI for use of VIGUS</description>
+  <description> Libraries for use GUI of VIGUS</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
@@ -24,9 +24,11 @@
   <build_depend>geometry_msgs</build_depend>
   <build_depend>std_msgs</build_depend>
   <build_depend>roscpp</build_depend>
-  <build_depend>libraries_gui</build_depend>
+  <build_depend>uav_abstraction_layer</build_depend>
+  <build_depend>hecatonquiros</build_depend>
 
-  <run_depend>libraries_gui</run_depend>
+  <run_depend>hecatonquiros</run_depend>
+  <run_depend>uav_abstraction_layer</run_depend>
   <run_depend>geometry_msgs</run_depend>
   <run_depend>std_msgs</run_depend>
   <run_depend>roscpp</run_depend>

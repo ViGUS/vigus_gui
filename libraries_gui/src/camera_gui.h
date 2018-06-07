@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 
-
 namespace Ui {
     class Camera_gui;
 }
@@ -30,5 +29,6 @@ private:
     std::string mPortCamera;
     
 };
+
 
 #endif // CAMERA_GUI_H

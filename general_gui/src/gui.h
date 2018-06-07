@@ -19,10 +19,10 @@
 #include <QTreeWidgetItem>
 #include <QBrush>
 
-#include "camera_gui.h"
-#include "pclviewer_gui.h"
-#include "arm_gui.h"
-#include "uav_gui.h"
+#include <camera_gui.h>
+#include <pclviewer_gui.h>
+#include <arm_gui.h>
+#include <uav_gui.h>
 
 namespace Ui {
 class Gui;

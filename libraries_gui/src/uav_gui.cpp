@@ -88,8 +88,8 @@ void UAV_gui::Run_xClicked()
     std::cout << "Step in X: " << stepX << std::endl;
 
     mPose = mUal->pose();
-	mPose.pose.position.x += stepX;
-	mUal->goToWaypoint(mPose);
+    mPose.pose.position.x += stepX;
+    mUal->goToWaypoint(mPose);
     std::cout << "Finished Step in X!" << std::endl;
 }
 
@@ -103,8 +103,8 @@ void UAV_gui::Run_yClicked()
     std::cout << "Step in Y: " << stepY << std::endl;
 
     mPose = mUal->pose();
-	mPose.pose.position.y += stepY;
-	mUal->goToWaypoint(mPose);
+    mPose.pose.position.y += stepY;
+    mUal->goToWaypoint(mPose);
     std::cout << "Finished Step in Y!" << std::endl;
 }
 
@@ -118,8 +118,8 @@ void UAV_gui::Run_zClicked()
     std::cout << "Step in Z: " << stepZ << std::endl;
 
     mPose = mUal->pose();
-	mPose.pose.position.z += stepZ;
-	mUal->goToWaypoint(mPose);
+    mPose.pose.position.z += stepZ;
+    mUal->goToWaypoint(mPose);
     std::cout << "Finished Step in Z!" << std::endl;
 }
 
@@ -147,16 +147,16 @@ void UAV_gui::Run_customPoseClicked()
     y = qY.toFloat();
     z = qZ.toFloat();
 
-	mPose = mUal->pose();
-	std::cout << "You wrote: " << x << ", " << y << ", " << z << std::endl;
-	std::cout << "And current pose is: " << mPose.pose.position.x << ", " << mPose.pose.position.y << ", " << mPose.pose.position.z << std::endl;
+    mPose = mUal->pose();
+    std::cout << "You wrote: " << x << ", " << y << ", " << z << std::endl;
+    std::cout << "And current pose is: " << mPose.pose.position.x << ", " << mPose.pose.position.y << ", " << mPose.pose.position.z << std::endl;
 
-	std::cout << "Moving..."<< std::endl;
-	auto targetPose = mUal->pose();
-	targetPose.pose.position.x = x;
-	targetPose.pose.position.y = y;
-	targetPose.pose.position.z = z;
-	mUal->goToWaypoint(targetPose);
+    std::cout << "Moving..."<< std::endl;
+    auto targetPose = mUal->pose();
+    targetPose.pose.position.x = x;
+    targetPose.pose.position.y = y;
+    targetPose.pose.position.z = z;
+    mUal->goToWaypoint(targetPose);
 
 }
 
@@ -169,16 +169,16 @@ void UAV_gui::Run_radiusEightClicked()
     radius = qRadius.toFloat();
 
     std::vector<geometry_msgs::PoseStamped> poses;
-	mPose = mUal->pose();
-	for(unsigned i = 0; i < 16; i++){
-		auto eigPose = mPose;
-		eigPose.pose.position.x += radius*sin(2*M_PI/16*i);
-		eigPose.pose.position.y += radius*sin(2*M_PI/16*i)*cos(2*M_PI/16*i);
-		poses.push_back(eigPose);
-	}
-	for(auto &pos: poses){
-		mUal->goToWaypoint(pos);
-	}
+    mPose = mUal->pose();
+    for(unsigned i = 0; i < 16; i++){
+        auto eigPose = mPose;
+        eigPose.pose.position.x += radius*sin(2*M_PI/16*i);
+        eigPose.pose.position.y += radius*sin(2*M_PI/16*i)*cos(2*M_PI/16*i);
+        poses.push_back(eigPose);
+    }
+    for(auto &pos: poses){
+        mUal->goToWaypoint(pos);
+    }
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -189,17 +189,17 @@ void UAV_gui::Run_radiusCircleClicked()
     float radius;
     radius = qRadius.toFloat();
 
-	std::vector<geometry_msgs::PoseStamped> poses;
-	mPose = mUal->pose();
-	for(unsigned i = 0; i < 16; i++){
-		auto cirPose = mPose;
-		cirPose.pose.position.x += radius*cos(2*M_PI/16*i);
-		cirPose.pose.position.y += radius*sin(2*M_PI/16*i);
-		poses.push_back(cirPose);
-	}
+    std::vector<geometry_msgs::PoseStamped> poses;
+    mPose = mUal->pose();
+    for(unsigned i = 0; i < 16; i++){
+        auto cirPose = mPose;
+        cirPose.pose.position.x += radius*cos(2*M_PI/16*i);
+        cirPose.pose.position.y += radius*sin(2*M_PI/16*i);
+        poses.push_back(cirPose);
+    }
     std::cout << "Running Radius of circle" << std::endl;
-	for(auto &pos: poses){
-		mUal->goToWaypoint(pos);
-	}
+    for(auto &pos: poses){
+        mUal->goToWaypoint(pos);
+    }
     std::cout << "Finished Radius of circle!" << std::endl;
 }

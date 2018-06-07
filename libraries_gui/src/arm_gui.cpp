@@ -121,7 +121,7 @@ bool Arm_gui::configureGUI(std::vector<std::pair<std::string, std::string>> _con
         if( _config[i].first == "Backend"){
             mBackendArm = _config[i].second;
             if(mBackendArm == "Feetech"){
-                 ui->comboBox->setCurrentIndex(1);
+                ui->comboBox->setCurrentIndex(1);
             }else if(mBackendArm == "Arduino"){
                 ui->comboBox->setCurrentIndex(2);
             }else{
@@ -152,14 +152,14 @@ bool Arm_gui::changeBackend(std::string _backend){
         QString qSerialPort;
         qSerialPort = ui->lineEdit_serial->text();
         mSerialPortArm = qSerialPort.toStdString();
-		serial::Serial* arduinoCom = new serial::Serial(mSerialPortArm, 115200, serial::Timeout::simpleTimeout(1000));
-		if (!arduinoCom->isOpen()) {
-			std::cout << "Could not open serial port" << std::endl;
+        serial::Serial* arduinoCom = new serial::Serial(mSerialPortArm, 115200, serial::Timeout::simpleTimeout(1000));
+        if (!arduinoCom->isOpen()) {
+            std::cout << "Could not open serial port" << std::endl;
             return false;
-		}
+        }
 
-		backendConfig1.type = hecatonquiros::Backend::Config::eType::Arduino; backendConfig1.sharedSerialPort = arduinoCom; backendConfig1.armId =1;
-		backendConfig2.type = hecatonquiros::Backend::Config::eType::Arduino; backendConfig2.sharedSerialPort = arduinoCom; backendConfig2.armId =2;
+        backendConfig1.type = hecatonquiros::Backend::Config::eType::Arduino; backendConfig1.sharedSerialPort = arduinoCom; backendConfig1.armId =1;
+        backendConfig2.type = hecatonquiros::Backend::Config::eType::Arduino; backendConfig2.sharedSerialPort = arduinoCom; backendConfig2.armId =2;
     
     }else if(_backend == "Feetech"){
 
@@ -167,7 +167,7 @@ bool Arm_gui::changeBackend(std::string _backend){
         qSerialPort = ui->lineEdit_serial->text();
         mSerialPortArm = qSerialPort.toStdString();
 
-		//backendConfig1.valuesMinMax = { {-109.376, 106.492},  
+        //backendConfig1.valuesMinMax = { {-109.376, 106.492},  
         //                            	{-111.490, 107.986},
         //                            	{-104.869, 113.775},
         //                            	{-111.568, 98.624},
@@ -175,7 +175,7 @@ bool Arm_gui::changeBackend(std::string _backend){
         //                            	{-135.305, 157.744}};
         //backendConfig1.jointsOffsets = { 0,	0,	0, 0,	0,	0 };
 
-		//backendConfig2.valuesMinMax = { {-112.737, 100.442},  
+        //backendConfig2.valuesMinMax = { {-112.737, 100.442},  
         //                                {-106.202, 110.798},
         //                                {-103.401, 116.820},
         //                                {-92.791, 120.046},
@@ -184,11 +184,11 @@ bool Arm_gui::changeBackend(std::string _backend){
         //backendConfig2.jointsOffsets = { 0,	0,	0, 0,	0,	0};
 
         backendConfig1.configXML = "src/hecatonquiros/arm_controller/config/config_arm1.xml";
-		backendConfig2.configXML = "src/hecatonquiros/arm_controller/config/config_arm2.xml";
+        backendConfig2.configXML = "src/hecatonquiros/arm_controller/config/config_arm2.xml";
 
-		backendConfig1.type = hecatonquiros::Backend::Config::eType::Feetech; backendConfig1.port = mSerialPortArm; backendConfig1.armId =1;
-		backendConfig2.type = hecatonquiros::Backend::Config::eType::Feetech; backendConfig2.port = mSerialPortArm; backendConfig2.armId =2;
-		
+        backendConfig1.type = hecatonquiros::Backend::Config::eType::Feetech; backendConfig1.port = mSerialPortArm; backendConfig1.armId =1;
+        backendConfig2.type = hecatonquiros::Backend::Config::eType::Feetech; backendConfig2.port = mSerialPortArm; backendConfig2.armId =2;
+        
     }else if(_backend == "No Backend"){
         backendConfig1.type = hecatonquiros::Backend::Config::eType::Dummy;
         backendConfig2.type = hecatonquiros::Backend::Config::eType::Dummy;
@@ -213,10 +213,10 @@ bool Arm_gui::changeBackend(std::string _backend){
         return false;
     }
     modelSolverConfig1.offset = {0.20,0.14,-0.04};
-	Eigen::Matrix3f m;
-	m = Eigen::AngleAxisf(0*M_PI, Eigen::Vector3f::UnitZ())
-		* Eigen::AngleAxisf(1*M_PI,  Eigen::Vector3f::UnitY());
-	Eigen::Quaternionf q(m);
+    Eigen::Matrix3f m;
+    m = Eigen::AngleAxisf(0*M_PI, Eigen::Vector3f::UnitZ())
+        * Eigen::AngleAxisf(1*M_PI,  Eigen::Vector3f::UnitY());
+    Eigen::Quaternionf q(m);
     modelSolverConfig1.rotation = {q.w(), q.x(), q.y(), q.z()};
     if(mVisualizer == true){
         modelSolverConfig1.visualizer = true;
@@ -274,11 +274,11 @@ void Arm_gui::X1Clicked(){
 
     std::vector<float> joints;
     mSecureLock.lock();
-	if(armInUse->checkIk(pose, joints, type)){
-		armInUse->joints(joints, true);
-	}else{
-		std::cout << "Not found IK" << std::endl;
-	}
+    if(armInUse->checkIk(pose, joints, type)){
+        armInUse->joints(joints, true);
+    }else{
+        std::cout << "Not found IK" << std::endl;
+    }
     mSecureLock.unlock();
 }
 
@@ -298,11 +298,11 @@ void Arm_gui::X2Clicked(){
 
     std::vector<float> joints;
     mSecureLock.lock();
-	if(armInUse->checkIk(pose, joints, type)){
-		armInUse->joints(joints, true);
-	}else{
-		std::cout << "Not found IK" << std::endl;
-	}
+    if(armInUse->checkIk(pose, joints, type)){
+        armInUse->joints(joints, true);
+    }else{
+        std::cout << "Not found IK" << std::endl;
+    }
     mSecureLock.unlock();
 }
 
@@ -322,11 +322,11 @@ void Arm_gui::Y1Clicked(){
 
     std::vector<float> joints;
     mSecureLock.lock();
-	if(armInUse->checkIk(pose, joints, type)){
-		armInUse->joints(joints, true);
-	}else{
-		std::cout << "Not found IK" << std::endl;
-	}
+    if(armInUse->checkIk(pose, joints, type)){
+        armInUse->joints(joints, true);
+    }else{
+        std::cout << "Not found IK" << std::endl;
+    }
     mSecureLock.unlock();
 }
 
@@ -346,11 +346,11 @@ void Arm_gui::Y2Clicked(){
 
     std::vector<float> joints;
     mSecureLock.lock();
-	if(armInUse->checkIk(pose, joints, type)){
-		armInUse->joints(joints, true);
-	}else{
-		std::cout << "Not found IK" << std::endl;
-	}
+    if(armInUse->checkIk(pose, joints, type)){
+        armInUse->joints(joints, true);
+    }else{
+        std::cout << "Not found IK" << std::endl;
+    }
     mSecureLock.unlock();
 }
 
@@ -370,11 +370,11 @@ void Arm_gui::Z1Clicked(){
 
     std::vector<float> joints;
     mSecureLock.lock();
-	if(armInUse->checkIk(pose, joints, type)){
-		armInUse->joints(joints, true);
-	}else{
-		std::cout << "Not found IK" << std::endl;
-	}
+    if(armInUse->checkIk(pose, joints, type)){
+        armInUse->joints(joints, true);
+    }else{
+        std::cout << "Not found IK" << std::endl;
+    }
     mSecureLock.unlock();
 }
 
@@ -394,11 +394,11 @@ void Arm_gui::Z2Clicked(){
 
     std::vector<float> joints;
     mSecureLock.lock();
-	if(armInUse->checkIk(pose, joints, type)){
-		armInUse->joints(joints, true);
-	}else{
-		std::cout << "Not found IK" << std::endl;
-	}
+    if(armInUse->checkIk(pose, joints, type)){
+        armInUse->joints(joints, true);
+    }else{
+        std::cout << "Not found IK" << std::endl;
+    }
     mSecureLock.unlock();
 }
 
@@ -545,8 +545,8 @@ void Arm_gui::Run_positionClicked()
         dz = qdz.toDouble();
 
         Eigen::Vector3f zAxis = {dx, dy, dz};
-		zAxis /=zAxis.norm();
-		pose.block<3,1>(0,2) = zAxis;
+        zAxis /=zAxis.norm();
+        pose.block<3,1>(0,2) = zAxis;
 
         type = hecatonquiros::ModelSolver::IK_TYPE::IK_6D;
     }
@@ -555,11 +555,11 @@ void Arm_gui::Run_positionClicked()
     }   
     std::vector<float> joints;
     mSecureLock.lock();
-	if(armInUse->checkIk(pose, joints, type)){
-		armInUse->joints(joints, true);
-	}else{
-		std::cout << "Not found IK" << std::endl;
-	}
+    if(armInUse->checkIk(pose, joints, type)){
+        armInUse->joints(joints, true);
+    }else{
+        std::cout << "Not found IK" << std::endl;
+    }
     mSecureLock.unlock();
 }
 
@@ -687,11 +687,11 @@ void Arm_gui::Run_WayPointsClicked(){
     
             std::vector<float> joints;
             mSecureLock.lock();
-	        if(armInUse->checkIk(pose, joints, type)){
-	        	armInUse->joints(joints, true);
-	        }else{
-	        	std::cout << "Not found IK" << std::endl;
-	        }
+            if(armInUse->checkIk(pose, joints, type)){
+                armInUse->joints(joints, true);
+            }else{
+                std::cout << "Not found IK" << std::endl;
+            }
             mSecureLock.unlock();
 
             std::this_thread::sleep_for(std::chrono::milliseconds(mWayPoints[i].second));
@@ -811,6 +811,4 @@ void Arm_gui::Run_readPosLoadCClicked(){
 void Arm_gui::Stop_readPosLoadCClicked(){
     mEndRead = false; 
 }
-
-
 

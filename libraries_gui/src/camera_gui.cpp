@@ -60,3 +60,4 @@ bool Camera_gui::putImage()
     return true;
 }
 
+

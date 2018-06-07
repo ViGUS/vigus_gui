@@ -5,7 +5,7 @@
 ###############################################################
 
 cmake_minimum_required (VERSION 2.8 FATAL_ERROR)
-project(general_gui)
+project(libraries_gui)
 
 # Clasify sources according to folder structure.
 # This creates a nice layout for the project in visual studio
@@ -32,11 +32,12 @@ find_package(catkin REQUIRED COMPONENTS
 			geometry_msgs
 			std_msgs
 			roscpp
-			libraries_gui
+			hecatonquiros
+			uav_abstraction_layer
             )
 
 catkin_package(
-CATKIN_DEPENDS roscpp std_msgs libraries_gui geometry_msgs
+CATKIN_DEPENDS roscpp std_msgs hecatonquiros uav_abstraction_layer geometry_msgs
 )
 
 ## Load PCL
@@ -71,31 +72,36 @@ ENDIF()
 file(GLOB_RECURSE SRC_FILES "src/*.cpp")
 file(GLOB_RECURSE HDR_FILES "src/*.h" "src/*.inl" "include/*.h")
 
-set(PROJECT_NAME general_gui)
+set(PROJECT_NAME libraries_gui)
 
 set(SOURCES
-    main.cpp
-	gui.cpp
+	arm_gui.cpp
+	uav_gui.cpp
+	pclviewer_gui.cpp
 )
 
 set(HEADERS
-	gui.h
+	arm_gui.h
+	uav_gui.h
+	pclviewer_gui.h
 )
 
 set(UI_SOURCES
-	gui.ui
+	arm_gui.ui
+	uav_gui.ui
+	pclviewer_gui.ui
 )
 
-QT5_WRAP_CPP(general_gui_HEADERS_MOC ${HEADERS})
-QT5_WRAP_UI(general_gui_FORMS_HEADERS ${UI_SOURCES})
+QT5_WRAP_CPP(libraries_gui_HEADERS_MOC ${HEADERS})
+QT5_WRAP_UI(libraries_gui_FORMS_HEADERS ${UI_SOURCES})
 
-add_executable(${PROJECT_NAME} ${SRC_FILES} ${HDR_FILES}) 
-include_directories(PUBLIC ${PROJECT_SOURCE_DIR}/src ${PROJECT_SOURCE_DIR}/include)
+add_library(${PROJECT_NAME} ${SRC_FILES} ${HDR_FILES})
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/src ${PROJECT_SOURCE_DIR}/include)
 
 target_link_libraries(${PROJECT_NAME} pthread)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${catkin_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} libraries_gui)
+target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} hecatonquiros)
 
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
 target_link_libraries(${PROJECT_NAME} Qt5::PrintSupport)

@@ -3,7 +3,6 @@
 
 #include <CallbackSubscriber.h>
 
-
 PCLViewer_gui::PCLViewer_gui(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::PCLViewer_gui)
