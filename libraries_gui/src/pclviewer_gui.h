@@ -73,7 +73,7 @@ private:
     std::string mDirPLY = "";
     std::string mTypePoint;
     std::string mNameSubscriber = "";
-    int mContSpheres = 0;
+    int mContSpheres = 1;
     bool mEndSub = false;
     cbs::CallbackSubscriber<sensor_msgs::PointCloud2ConstPtr> *mSubPCL;
     std::thread mListenThread;

@@ -11,7 +11,7 @@ PCLViewer_gui::PCLViewer_gui(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle("PCL viewer");
 
-    connect(ui->Delete_Spheres, SIGNAL(clicked()), this, SLOT(on_Delete_Spheres_clicked()));
+    connect(ui->Delete_Spheres, SIGNAL(clicked()), this, SLOT(Delete_SpheresClicked()));
 
     }
 

@@ -62,6 +62,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+find_package(Marble REQUIRED)
+
 #########################################
 ######			Executable		   ######
 #########################################
@@ -105,6 +107,8 @@ target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} hecatonquiros)
 
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
 target_link_libraries(${PROJECT_NAME} Qt5::PrintSupport)
+
+target_link_libraries(${PROJECT_NAME} Marble)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PCL_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} LINK_PUBLIC ${PCL_LIBRARIES})

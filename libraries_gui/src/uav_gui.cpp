@@ -19,11 +19,13 @@ UAV_gui::UAV_gui(QWidget *parent) :
     connect(ui->land, SIGNAL(clicked()), this, SLOT(landClicked()));
     connect(ui->Run_pose, SIGNAL(clicked()), this, SLOT(Run_poseClicked()));
     connect(ui->Run_customPose, SIGNAL(clicked()), this, SLOT(Run_customPoseClicked()));
-    connect(ui->Run_radiusCircle, SIGNAL(clicked()), this, SLOT(Run_radiusCircleClicked()));
-    connect(ui->Run_radiusEight, SIGNAL(clicked()), this, SLOT(Run_radiusEightClicked()));
-    connect(ui->Run_x, SIGNAL(clicked()), this, SLOT(Run_xClicked()));
-    connect(ui->Run_y, SIGNAL(clicked()), this, SLOT(Run_yClicked()));
-    connect(ui->Run_z, SIGNAL(clicked()), this, SLOT(Run_zClicked()));
+
+    mMapWidget= new Marble::MarbleWidget();
+    mMapWidget->setProjection(Marble::Mercator);
+    mMapWidget->setMapThemeId("earth/openstreetmap/openstreetmap.dgml");
+    mMapWidget->show();
+
+    ui->horizontalLayout->addWidget(mMapWidget);
 
     }
 
@@ -47,10 +49,10 @@ bool UAV_gui::configureGUI(std::vector<std::pair<std::string, std::string>> _con
     
     // TODO: SET ID TO UAV FOR MULTIPLE UAV
 
-    mUal = new grvc::ual::UAL(_argcCopy, _argvCopy);
-    while (!mUal->isReady() && ros::ok()) {
-        sleep(1);
-    }
+    //mUal = new grvc::ual::UAL(_argcCopy, _argvCopy);
+    //while (!mUal->isReady() && ros::ok()) {
+    //    sleep(1);
+    //}
     std::this_thread::sleep_for(std::chrono::seconds(1));
 
     return true;
@@ -75,52 +77,6 @@ void UAV_gui::landClicked()
     std::cout << "Landing..." <<std::endl;
     mUal->land(true);
     std::cout << "Landed!" <<std::endl;
-}
-
-
-//---------------------------------------------------------------------------------------------------------------------
-void UAV_gui::Run_xClicked()
-{
-    QString qStepX;
-    qStepX = ui->lineEdit_sx->text();
-    float stepX;
-    stepX = qStepX.toFloat();
-    std::cout << "Step in X: " << stepX << std::endl;
-
-    mPose = mUal->pose();
-    mPose.pose.position.x += stepX;
-    mUal->goToWaypoint(mPose);
-    std::cout << "Finished Step in X!" << std::endl;
-}
-
-//---------------------------------------------------------------------------------------------------------------------
-void UAV_gui::Run_yClicked()
-{
-    QString qStepY;
-    qStepY = ui->lineEdit_sy->text();
-    float stepY;
-    stepY = qStepY.toFloat();
-    std::cout << "Step in Y: " << stepY << std::endl;
-
-    mPose = mUal->pose();
-    mPose.pose.position.y += stepY;
-    mUal->goToWaypoint(mPose);
-    std::cout << "Finished Step in Y!" << std::endl;
-}
-
-//---------------------------------------------------------------------------------------------------------------------
-void UAV_gui::Run_zClicked()
-{
-    QString qStepZ;
-    qStepZ = ui->lineEdit_sx->text();
-    float stepZ;
-    stepZ = qStepZ.toFloat();
-    std::cout << "Step in Z: " << stepZ << std::endl;
-
-    mPose = mUal->pose();
-    mPose.pose.position.z += stepZ;
-    mUal->goToWaypoint(mPose);
-    std::cout << "Finished Step in Z!" << std::endl;
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -158,48 +114,4 @@ void UAV_gui::Run_customPoseClicked()
     targetPose.pose.position.z = z;
     mUal->goToWaypoint(targetPose);
 
-}
-
-//---------------------------------------------------------------------------------------------------------------------
-void UAV_gui::Run_radiusEightClicked()
-{
-    QString qRadius;
-    qRadius = ui->lineEdit_re1->text();
-    float radius;
-    radius = qRadius.toFloat();
-
-    std::vector<geometry_msgs::PoseStamped> poses;
-    mPose = mUal->pose();
-    for(unsigned i = 0; i < 16; i++){
-        auto eigPose = mPose;
-        eigPose.pose.position.x += radius*sin(2*M_PI/16*i);
-        eigPose.pose.position.y += radius*sin(2*M_PI/16*i)*cos(2*M_PI/16*i);
-        poses.push_back(eigPose);
-    }
-    for(auto &pos: poses){
-        mUal->goToWaypoint(pos);
-    }
-}
-
-//---------------------------------------------------------------------------------------------------------------------
-void UAV_gui::Run_radiusCircleClicked()
-{   
-    QString qRadius;
-    qRadius = ui->lineEdit_rc1->text();
-    float radius;
-    radius = qRadius.toFloat();
-
-    std::vector<geometry_msgs::PoseStamped> poses;
-    mPose = mUal->pose();
-    for(unsigned i = 0; i < 16; i++){
-        auto cirPose = mPose;
-        cirPose.pose.position.x += radius*cos(2*M_PI/16*i);
-        cirPose.pose.position.y += radius*sin(2*M_PI/16*i);
-        poses.push_back(cirPose);
-    }
-    std::cout << "Running Radius of circle" << std::endl;
-    for(auto &pos: poses){
-        mUal->goToWaypoint(pos);
-    }
-    std::cout << "Finished Radius of circle!" << std::endl;
 }

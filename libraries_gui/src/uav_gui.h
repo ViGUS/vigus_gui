@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include <uav_abstraction_layer/ual.h>
+#include <marble/MarbleWidget.h>
 
 namespace Ui {
 class UAV_gui;
@@ -25,23 +26,14 @@ private slots:
 
     void takeOffClicked();
 
-    void Run_xClicked();
-
-    void Run_yClicked();
-
-    void Run_zClicked();
-
     void Run_poseClicked();
 
     void Run_customPoseClicked();
 
-    void Run_radiusEightClicked();
-
-    void Run_radiusCircleClicked();
-
 private:
     Ui::UAV_gui *ui;
 
+    Marble::MarbleWidget *mMapWidget;
     grvc::ual::UAL *mUal;
     geometry_msgs::PoseStamped mPose;
     std::string mIdUAV;

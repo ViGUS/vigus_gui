@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>966</width>
-    <height>499</height>
+    <width>1075</width>
+    <height>714</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -29,10 +29,10 @@
    <widget class="QVTKWidget" name="qvtkWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>10</y>
-      <width>640</width>
-      <height>480</height>
+      <x>400</x>
+      <y>30</y>
+      <width>671</width>
+      <height>621</height>
      </rect>
     </property>
    </widget>
@@ -189,6 +189,120 @@
      <string>0.1</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="Export_txt">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>660</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Export TXT</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Load_txt">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>660</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Load TXT</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="DeleteWP">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>350</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Delete Points</string>
+    </property>
+   </widget>
+   <widget class="QScrollArea" name="scrollArea">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>400</y>
+      <width>321</width>
+      <height>241</height>
+     </rect>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>319</width>
+       <height>239</height>
+      </rect>
+     </property>
+     <widget class="QListWidget" name="listWidget_WayPoints">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>301</width>
+        <height>221</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="label_31">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>290</y>
+      <width>191</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>List of Waypoints added</string>
+    </property>
+   </widget>
+   <widget class="QCommandLinkButton" name="Run_waypoints">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>360</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="text">
+     <string>Run</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_STraj">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>330</y>
+      <width>151</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Smoth trajectory</string>
+    </property>
+   </widget>
    <zorder>listView</zorder>
    <zorder>qvtkWidget</zorder>
    <zorder>label</zorder>
@@ -202,6 +316,13 @@
    <zorder>Delete_Spheres</zorder>
    <zorder>label_6</zorder>
    <zorder>lineEdit_RadSphere</zorder>
+   <zorder>Export_txt</zorder>
+   <zorder>Load_txt</zorder>
+   <zorder>DeleteWP</zorder>
+   <zorder>scrollArea</zorder>
+   <zorder>label_31</zorder>
+   <zorder>Run_waypoints</zorder>
+   <zorder>checkBox_STraj</zorder>
   </widget>
  </widget>
  <customwidgets>
