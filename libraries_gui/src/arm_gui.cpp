@@ -82,8 +82,14 @@ Arm_gui::Arm_gui(QWidget *parent) :
     ui->Z2->setIcon(ButtonIconZ2);
     ui->Z2->setIconSize(pixmapZ2.rect().size());
 
-    ui->scrollArea_6->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    ui->scrollArea_6->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    //ui->scrollArea_6->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    //ui->scrollArea_6->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+
+    ui->lineEdit_p4->setVisible(0);
+    ui->lineEdit_p5->setVisible(0);
+    ui->lineEdit_p6->setVisible(0);
+
+    ui->ConnectA->setVisible(0);
 
     }
 
@@ -142,10 +148,10 @@ bool Arm_gui::changeBackend(std::string _backend){
 
         backendConfig1.type = hecatonquiros::Backend::Config::eType::Gazebo;
         backendConfig1.topic = "left_arm/joint_states";
-        backendConfig1.armId =1;
+        backendConfig1.armId = 1;
         backendConfig2.type = hecatonquiros::Backend::Config::eType::Gazebo;
         backendConfig2.topic = "right_arm/joint_states";
-        backendConfig2.armId =2;
+        backendConfig2.armId = 2;
 
     }else if(_backend == "Arduino"){
 
@@ -242,13 +248,8 @@ bool Arm_gui::changeBackend(std::string _backend){
     leftArm = new hecatonquiros::Arm4DoF (modelSolverConfig1, backendConfig1);
     rightArm = new hecatonquiros::Arm4DoF (modelSolverConfig2, backendConfig2);
 
-    mSecureLock.lock();
     leftArm->home();
-    mSecureLock.unlock();
-
-    mSecureLock.lock();
     rightArm->home();
-    mSecureLock.unlock();
 
     //armInUse = rightArm;
     //mUsingRight = true;
@@ -265,21 +266,17 @@ void Arm_gui::X1Clicked(){
     float fPrecision;
     fPrecision = qPrecision.toFloat();
 
-    mSecureLock.lock();
     auto pose = armInUse->pose();
-    mSecureLock.unlock();
     pose(0,3) = pose(0,3) + fPrecision;
 
     hecatonquiros::ModelSolver::IK_TYPE type = hecatonquiros::ModelSolver::IK_TYPE::IK_3D; 
 
     std::vector<float> joints;
-    mSecureLock.lock();
     if(armInUse->checkIk(pose, joints, type)){
         armInUse->joints(joints, true);
     }else{
         std::cout << "Not found IK" << std::endl;
     }
-    mSecureLock.unlock();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -289,21 +286,17 @@ void Arm_gui::X2Clicked(){
     float fPrecision;
     fPrecision = qPrecision.toFloat();
 
-    mSecureLock.lock();
     auto pose = armInUse->pose();
-    mSecureLock.unlock();
     pose(0,3) = pose(0,3) - fPrecision;
 
     hecatonquiros::ModelSolver::IK_TYPE type = hecatonquiros::ModelSolver::IK_TYPE::IK_3D; 
 
     std::vector<float> joints;
-    mSecureLock.lock();
     if(armInUse->checkIk(pose, joints, type)){
         armInUse->joints(joints, true);
     }else{
         std::cout << "Not found IK" << std::endl;
     }
-    mSecureLock.unlock();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -313,21 +306,17 @@ void Arm_gui::Y1Clicked(){
     float fPrecision;
     fPrecision = qPrecision.toFloat();
 
-    mSecureLock.lock();
     auto pose = armInUse->pose();
-    mSecureLock.unlock();
     pose(1,3) = pose(1,3) - fPrecision;
 
     hecatonquiros::ModelSolver::IK_TYPE type = hecatonquiros::ModelSolver::IK_TYPE::IK_3D; 
 
     std::vector<float> joints;
-    mSecureLock.lock();
     if(armInUse->checkIk(pose, joints, type)){
         armInUse->joints(joints, true);
     }else{
         std::cout << "Not found IK" << std::endl;
     }
-    mSecureLock.unlock();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -337,21 +326,17 @@ void Arm_gui::Y2Clicked(){
     float fPrecision;
     fPrecision = qPrecision.toFloat();
 
-    mSecureLock.lock();
     auto pose = armInUse->pose();
-    mSecureLock.unlock();
     pose(1,3) = pose(1,3) + fPrecision;
 
     hecatonquiros::ModelSolver::IK_TYPE type = hecatonquiros::ModelSolver::IK_TYPE::IK_3D; 
 
     std::vector<float> joints;
-    mSecureLock.lock();
     if(armInUse->checkIk(pose, joints, type)){
         armInUse->joints(joints, true);
     }else{
         std::cout << "Not found IK" << std::endl;
     }
-    mSecureLock.unlock();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -361,21 +346,17 @@ void Arm_gui::Z1Clicked(){
     float fPrecision;
     fPrecision = qPrecision.toFloat();
 
-    mSecureLock.lock();
     auto pose = armInUse->pose();
-    mSecureLock.unlock();
-    pose(2,3) = pose(2,3) - fPrecision;
+    pose(2,3) = pose(2,3) + fPrecision;
 
     hecatonquiros::ModelSolver::IK_TYPE type = hecatonquiros::ModelSolver::IK_TYPE::IK_3D; 
 
     std::vector<float> joints;
-    mSecureLock.lock();
     if(armInUse->checkIk(pose, joints, type)){
         armInUse->joints(joints, true);
     }else{
         std::cout << "Not found IK" << std::endl;
     }
-    mSecureLock.unlock();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -385,21 +366,17 @@ void Arm_gui::Z2Clicked(){
     float fPrecision;
     fPrecision = qPrecision.toFloat();
 
-    mSecureLock.lock();
     auto pose = armInUse->pose();
-    mSecureLock.unlock();
-    pose(2,3) = pose(2,3) + fPrecision;
+    pose(2,3) = pose(2,3) - fPrecision;
 
     hecatonquiros::ModelSolver::IK_TYPE type = hecatonquiros::ModelSolver::IK_TYPE::IK_3D; 
 
     std::vector<float> joints;
-    mSecureLock.lock();
     if(armInUse->checkIk(pose, joints, type)){
         armInUse->joints(joints, true);
     }else{
         std::cout << "Not found IK" << std::endl;
     }
-    mSecureLock.unlock();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -409,9 +386,11 @@ void Arm_gui::ConnectBClicked(){
     mBackendArm = qBackend.toStdString();
     if(changeBackend(mBackendArm)){
         std::cout << "Changed backend" << std::endl;
+        ui->ConnectA->setVisible(1);
     }
     else{
         std::cout << "NOT changed backend" << std::endl;
+        ui->ConnectA->setVisible(0);
     }
 }
 
@@ -433,36 +412,28 @@ void Arm_gui::ConnectAClicked(){
 void Arm_gui::Stop_ClawClicked()
 {
     std::cout << "Stop claw" <<std::endl;
-    mSecureLock.lock();
     armInUse->stopClaw();
-    mSecureLock.unlock();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
 void Arm_gui::Close_ClawClicked()
 {
     std::cout << "Close claw" <<std::endl;
-    mSecureLock.lock();
     armInUse->closeClaw();
-    mSecureLock.unlock();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
 void Arm_gui::Open_ClawClicked()
 {
     std::cout << "Open Claw" <<std::endl;
-    mSecureLock.lock();
     armInUse->openClaw();
-    mSecureLock.unlock();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
 void Arm_gui::HomeClicked()
 {
     std::cout << "Home" <<std::endl;
-    mSecureLock.lock();
     armInUse->home();
-    mSecureLock.unlock();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -507,9 +478,7 @@ void Arm_gui::Run_jointsClicked()
 
     std::vector<float> joints;
     joints = {j1, j2, j3, j4, j5};
-    mSecureLock.lock();
     armInUse->joints(joints, true);
-    mSecureLock.unlock();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -554,21 +523,17 @@ void Arm_gui::Run_positionClicked()
         type = hecatonquiros::ModelSolver::IK_TYPE::IK_3D;
     }   
     std::vector<float> joints;
-    mSecureLock.lock();
     if(armInUse->checkIk(pose, joints, type)){
         armInUse->joints(joints, true);
     }else{
         std::cout << "Not found IK" << std::endl;
     }
-    mSecureLock.unlock();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
 void Arm_gui::Run_autoposeClicked()
 {
-    mSecureLock.lock();
     auto pose = armInUse->pose();
-    mSecureLock.unlock();
     std::cout << "Arm Pose: " << std::endl;
     std::cout << pose << std::endl;
 
@@ -594,9 +559,7 @@ void Arm_gui::Run_autoposeClicked()
 //---------------------------------------------------------------------------------------------------------------------
 void Arm_gui::Run_saveposeClicked()
 {
-    mSecureLock.lock();
     auto pose = armInUse->pose();
-    mSecureLock.unlock();
 
     QString qd;
     qd = ui->lineEdit_DAddWP->text();
@@ -663,9 +626,7 @@ void Arm_gui::Run_WayPointsClicked(){
                     auxJoints.push_back(v);
                 }
 
-                mSecureLock.lock();
                 armInUse->joints(auxJoints, true);
-                mSecureLock.unlock();
 
                 int timeToWait = (timeTraj/jointsTraj.size());
                 std::this_thread::sleep_for(std::chrono::milliseconds(timeToWait));
@@ -686,13 +647,11 @@ void Arm_gui::Run_WayPointsClicked(){
             type = hecatonquiros::ModelSolver::IK_TYPE::IK_3D;
     
             std::vector<float> joints;
-            mSecureLock.lock();
             if(armInUse->checkIk(pose, joints, type)){
                 armInUse->joints(joints, true);
             }else{
                 std::cout << "Not found IK" << std::endl;
             }
-            mSecureLock.unlock();
 
             std::this_thread::sleep_for(std::chrono::milliseconds(mWayPoints[i].second));
         }
@@ -719,14 +678,10 @@ void Arm_gui::Run_readPosLoad1Clicked(){
     int jointToRead;
     jointToRead = qjoint.toInt();
     
-    mSecureLock.lock();
     int load = armInUse->readLoad(jointToRead);
-    mSecureLock.unlock();
     ui->lineEdit_load->setText(QString::number( load ));
 
-    mSecureLock.lock();
     int pos = armInUse->readPos(jointToRead);
-    mSecureLock.unlock();
     ui->lineEdit_pos->setText(QString::number( pos ));
 }
 
@@ -737,67 +692,39 @@ void Arm_gui::Run_readPosLoadCClicked(){
     mListenThread = std::thread([&]() {
         while(mEndRead){
             
-            mSecureLock.lock();
             load = armInUse->readLoad(0);
-            mSecureLock.unlock();
             ui->lineEdit_load0->setText(QString::number( load ));
-            mSecureLock.lock();
             pos = armInUse->readPos(0);
-            mSecureLock.unlock();
             ui->lineEdit_pos0->setText(QString::number( pos ));
 
-            mSecureLock.lock();
             load = armInUse->readLoad(1);
-            mSecureLock.unlock();
             ui->lineEdit_load1->setText(QString::number( load ));
-            mSecureLock.lock();
             pos = armInUse->readPos(1);
-            mSecureLock.unlock();
             ui->lineEdit_pos1->setText(QString::number( pos ));
 
-            mSecureLock.lock();
             load = armInUse->readLoad(2);
-            mSecureLock.unlock();
             ui->lineEdit_load2->setText(QString::number( load ));
-            mSecureLock.lock();
             pos = armInUse->readPos(2);
-            mSecureLock.unlock();
             ui->lineEdit_pos2->setText(QString::number( pos ));
 
-            mSecureLock.lock();
             load = armInUse->readLoad(3);
-            mSecureLock.unlock();
             ui->lineEdit_load3->setText(QString::number( load ));
-            mSecureLock.lock();
             pos = armInUse->readPos(3);
-            mSecureLock.unlock();
             ui->lineEdit_pos3->setText(QString::number( pos ));
 
-            mSecureLock.lock();
             load = armInUse->readLoad(4);
-            mSecureLock.unlock();
             ui->lineEdit_load4->setText(QString::number( load ));
-            mSecureLock.lock();
             pos = armInUse->readPos(4);
-            mSecureLock.unlock();
             ui->lineEdit_pos4->setText(QString::number( pos ));
 
-            mSecureLock.lock();
             load = armInUse->readLoad(5);
-            mSecureLock.unlock();
             ui->lineEdit_load5->setText(QString::number( load ));
-            mSecureLock.lock();
             pos = armInUse->readPos(5);
-            mSecureLock.unlock();
             ui->lineEdit_pos5->setText(QString::number( pos ));
 
-            mSecureLock.lock();
             load = armInUse->readLoad(6);
-            mSecureLock.unlock();
             ui->lineEdit_load6->setText(QString::number( load ));
-            mSecureLock.lock();
             pos = armInUse->readPos(6);
-            mSecureLock.unlock();
             ui->lineEdit_pos6->setText(QString::number( pos ));
             
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
