@@ -26,303 +26,259 @@
    <string>PCLViewer_gui</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QVTKWidget" name="qvtkWidget" native="true">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>30</y>
-      <width>671</width>
-      <height>621</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>20</y>
-      <width>141</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Position Clicked</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>60</y>
-      <width>31</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>X</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>100</y>
-      <width>21</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Y</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>140</y>
-      <width>21</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Z</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_MX">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>60</y>
-      <width>113</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>0</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_MY">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>100</y>
-      <width>113</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>0</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_MZ">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>140</y>
-      <width>113</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>0</string>
-    </property>
-   </widget>
-   <widget class="QListView" name="listView">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>20</y>
-      <width>171</width>
-      <height>161</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_5">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>240</y>
-      <width>131</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Delete all spheres</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Delete_Spheres">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>250</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Delete</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>190</y>
-      <width>131</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Radius of Spheres</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_RadSphere">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>200</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>0.1</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Export_txt">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>660</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Export TXT</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Load_txt">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>660</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Load TXT</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="DeleteWP">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>350</y>
-      <width>111</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Delete Points</string>
-    </property>
-   </widget>
-   <widget class="QScrollArea" name="scrollArea">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>400</y>
-      <width>321</width>
-      <height>241</height>
-     </rect>
-    </property>
-    <property name="widgetResizable">
-     <bool>true</bool>
-    </property>
-    <widget class="QWidget" name="scrollAreaWidgetContents">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>319</width>
-       <height>239</height>
-      </rect>
-     </property>
-     <widget class="QListWidget" name="listWidget_WayPoints">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>301</width>
-        <height>221</height>
-       </rect>
-      </property>
-     </widget>
-    </widget>
-   </widget>
-   <widget class="QLabel" name="label_31">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>290</y>
-      <width>191</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>List of Waypoints added</string>
-    </property>
-   </widget>
-   <widget class="QCommandLinkButton" name="Run_waypoints">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>360</y>
-      <width>81</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="text">
-     <string>Run</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBox_STraj">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>330</y>
-      <width>151</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Smoth trajectory</string>
-    </property>
-   </widget>
-   <zorder>listView</zorder>
-   <zorder>qvtkWidget</zorder>
-   <zorder>label</zorder>
-   <zorder>label_2</zorder>
-   <zorder>label_3</zorder>
-   <zorder>label_4</zorder>
-   <zorder>lineEdit_MX</zorder>
-   <zorder>lineEdit_MY</zorder>
-   <zorder>lineEdit_MZ</zorder>
-   <zorder>label_5</zorder>
-   <zorder>Delete_Spheres</zorder>
-   <zorder>label_6</zorder>
-   <zorder>lineEdit_RadSphere</zorder>
-   <zorder>Export_txt</zorder>
-   <zorder>Load_txt</zorder>
-   <zorder>DeleteWP</zorder>
-   <zorder>scrollArea</zorder>
-   <zorder>label_31</zorder>
-   <zorder>Run_waypoints</zorder>
-   <zorder>checkBox_STraj</zorder>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QScrollArea" name="scrollArea">
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>1053</width>
+           <height>692</height>
+          </rect>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="gridLayout_3">
+            <item row="0" column="2" rowspan="11">
+             <widget class="QVTKWidget" name="qvtkWidget" native="true"/>
+            </item>
+            <item row="10" column="1">
+             <widget class="QPushButton" name="pushButton">
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Load TXT</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="lineEdit_MY">
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="lineEdit_MZ">
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_7">
+              <property name="maximumSize">
+               <size>
+                <width>180</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>List of Waypoints added</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="lineEdit_RadSphere">
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>0.1</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="lineEdit_MX">
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_5">
+              <property name="maximumSize">
+               <size>
+                <width>130</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Radius of Spheres</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="0" rowspan="2" colspan="2">
+             <widget class="QScrollArea" name="scrollArea_2">
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <widget class="QWidget" name="scrollAreaWidgetContents_2">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>309</width>
+                 <height>346</height>
+                </rect>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_5">
+                <item row="0" column="0">
+                 <widget class="QListWidget" name="listWidget_WayPoints"/>
+                </item>
+               </layout>
+              </widget>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QCheckBox" name="checkBox_STraj">
+              <property name="maximumSize">
+               <size>
+                <width>150</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Smoth trajectory</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_2">
+              <property name="maximumSize">
+               <size>
+                <width>50</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Z:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_6">
+              <property name="maximumSize">
+               <size>
+                <width>130</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Delete all Spheres</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label">
+              <property name="maximumSize">
+               <size>
+                <width>110</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Position clicked</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_3">
+              <property name="maximumSize">
+               <size>
+                <width>50</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Y:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_4">
+              <property name="maximumSize">
+               <size>
+                <width>50</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>X:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QPushButton" name="Delete_Spheres">
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Delete</string>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="0">
+             <widget class="QCommandLinkButton" name="Run_waypoints">
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Run</string>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="1">
+             <widget class="QPushButton" name="pushButton_2">
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Export TXT</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
  </widget>
  <customwidgets>
