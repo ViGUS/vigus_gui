@@ -21,6 +21,7 @@
         <Subscriber>/gui/PointCloud</Subscriber>
 	-->        
 	<TypePoint>PointXYZRGB</TypePoint>
+    <CallbackPose>/callbackpose/pose</CallbackPose>
     </PointCloud>
     <Camera>
         <IPCamera>0.0.0.0</IPCamera>

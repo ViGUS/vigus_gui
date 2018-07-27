@@ -186,6 +186,15 @@ bool Gui::extractData(std::string _pathXML, int _argcCopy, char ** _argvCopy)
                 addChildGUI(mItemRootPointCloud, "Subscriber", QString::fromStdString(subscriber));
                 mExtractDataPointCloud.push_back(std::make_pair("Subscriber", subscriber));
             }
+
+            itemPointCloud = childPointCloud->FirstChildElement("CallbackPose");
+            if(itemPointCloud){
+                std::string callbackpose;
+                callbackpose = itemPointCloud->GetText();
+                // Add Child for PointCloud Root
+                addChildGUI(mItemRootPointCloud, "CallbackPose", QString::fromStdString(callbackpose));
+                mExtractDataPointCloud.push_back(std::make_pair("CallbackPose", callbackpose));
+            }
         }
 
         int contCamera = 0;

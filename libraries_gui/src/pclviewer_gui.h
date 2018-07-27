@@ -22,6 +22,8 @@
 #include <pcl/point_types.h>
 #include <pcl_conversions/pcl_conversions.h>
 
+#include "geometry_msgs/PoseStamped.h"
+
 typedef pcl::PointXYZ PointT1;
 typedef pcl::PointCloud<PointT1> PointCloudT1;
 
@@ -62,21 +64,35 @@ private slots:
 
     void pointPickingOccurred(const pcl::visualization::PointPickingEvent &_event, void* _args);
 
+    void CallbackPose(const geometry_msgs::PoseStamped::ConstPtr& _msg);
+
+    void addPose(std::string _name);
+
+    void updatePose(std::string _name);
+
 private:
     Ui::PCLViewer_gui *ui;
 
     boost::shared_ptr<pcl::visualization::PCLVisualizer> mViewer;
     PointCloudT1::Ptr mCloudT1;
     PointCloudT2::Ptr mCloudT2;
+
     std::string mDirPCD = "";
     std::string mDirTXT = "";
     std::string mDirPLY = "";
     std::string mTypePoint;
     std::string mNameSubscriber = "";
+    std::string mNameCallbackPose = "";
+
     int mContSpheres = 1;
     bool mEndSub = false;
+
     cbs::CallbackSubscriber<sensor_msgs::PointCloud2ConstPtr> *mSubPCL;
-    std::thread mListenThread;
+    ros::Subscriber mPoseSubscriber;
+
+    float mPoseX = 0.0, mPoseY = 0.0, mPoseZ = 0.0, mPoseOX = 0.0, mPoseOY = 0.0, mPoseOZ = 0.0;
+
+    std::thread mListenThread, mUpdatePoseThread;
 };
 
 

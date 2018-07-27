@@ -52,6 +52,9 @@ bool PCLViewer_gui::configureGUI(std::vector<std::pair<std::string, std::string>
             mNameSubscriber = _config[i].second;
             dir = mNameSubscriber;   
         }
+        if(_config[i].first == "CallbackPose"){
+            mNameCallbackPose = _config[i].second;
+        }
     }
 
     if(dir == mDirTXT){
@@ -150,6 +153,12 @@ bool PCLViewer_gui::extractPointCloud(std::string _dir)
     mViewer->resetCamera();
     mViewer->registerPointPickingCallback(&PCLViewer_gui::pointPickingOccurred, *this);
     ui->qvtkWidget->update();  
+
+    if(mNameCallbackPose != ""){
+        addPose("pose");
+        ros::NodeHandle nh;
+        mPoseSubscriber = nh.subscribe(mNameCallbackPose, 1, &PCLViewer_gui::CallbackPose, this);
+    }
 
     return true;
 }
@@ -305,5 +314,59 @@ void PCLViewer_gui::pointPickingOccurred(const pcl::visualization::PointPickingE
     ui->lineEdit_MX->setText(QString::number(x));
     ui->lineEdit_MY->setText(QString::number(y));
     ui->lineEdit_MZ->setText(QString::number(z));
+
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+void PCLViewer_gui::CallbackPose(const geometry_msgs::PoseStamped::ConstPtr& _msg){
+    
+    mPoseX = _msg->pose.position.x;
+    mPoseY = _msg->pose.position.y;
+    mPoseZ = _msg->pose.position.z;
+    mPoseOX = _msg->pose.orientation.x;
+    mPoseOY = _msg->pose.orientation.y;
+    mPoseOZ = _msg->pose.orientation.z;
+    
+    updatePose("pose");
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+void PCLViewer_gui::addPose(std::string _name){
+    
+    Eigen::Quaternionf q;
+    q.x() = 0;
+    q.y() = 0;
+    q.z() = 0;
+    q.w() = 1;    
+    Eigen::Matrix3f R = q.normalized().toRotationMatrix();
+
+    Eigen::Matrix4f pose = Eigen::Matrix4f::Identity();
+    pose.block<3,3>(0,0) = R;
+    pose(0,3) = 0;
+    pose(1,3) = 0;
+    pose(2,3) = 0;
+
+    mViewer->addCoordinateSystem(0.6, Eigen::Affine3f(pose), _name);
+    updatePointCloudGUI();
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+void PCLViewer_gui::updatePose(std::string _name){
+    
+    Eigen::Quaternionf q;
+    q.x() = mPoseOX;
+    q.y() = mPoseOY;
+    q.z() = mPoseOZ;
+    q.w() = 1;    
+    Eigen::Matrix3f R = q.normalized().toRotationMatrix();
+
+    Eigen::Matrix4f pose = Eigen::Matrix4f::Identity();
+    pose.block<3,3>(0,0) = R;
+    pose(0,3) = mPoseX;
+    pose(1,3) = mPoseY;
+    pose(2,3) = mPoseZ;
+
+    mViewer->updateCoordinateSystemPose(_name, Eigen::Affine3f(pose));
+    updatePointCloudGUI();
 
 }
